@@ -11,41 +11,8 @@
     "tags": ["dashboard", "theme", "terminal"]
   },
   {
-    "name": "ClackOS",
-    "description": "ClackOS Theme Swapper & Dashboard",
-    "preview": "preview.png",
-    "main": "clackos.js",
-    "readme": "README.md",
-    "authors": [
-        { "name": "clack", "url": "https://github.com/clack" }
-    ],
-    "tags": ["dashboard", "theme"]
-  },
-  {
-    "name": "Clack Themes Injector",
-    "description": "ClackOS standalone theme injector",
-    "preview": "preview.png",
-    "main": "clack_themes.js",
-    "readme": "README.md",
-    "authors": [
-        { "name": "clack", "url": "https://github.com/clack" }
-    ],
-    "tags": ["theme", "injector"]
-  },
-  {
-    "name": "Clack Visualizer",
-    "description": "ClackOS audio visualizer overlay",
-    "preview": "preview.png",
-    "main": "clack_visualizer.js",
-    "readme": "README.md",
-    "authors": [
-        { "name": "clack", "url": "https://github.com/clack" }
-    ],
-    "tags": ["visualizer", "audio"]
-  },
-  {
     "name": "ktnaOS Themes",
-    "description": "A collection of 20+ dark and cyberpunk color schemes",
+    "description": "A collection of dark and cyberpunk color schemes",
     "preview": "preview.png",
     "readme": "README.md",
     "usercss": "user.css",
