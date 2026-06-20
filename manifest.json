@@ -1,7 +1,7 @@
 [
   {
     "name": "ktnaOS",
-    "description": "Terminal UI and Theme Swapper dashboard extension",
+    "description": "something fun i made and i forked it from darkthemer so thanks to him :)",
     "preview": "preview.png",
     "main": "ktnaos.js",
     "readme": "README.md",
@@ -12,7 +12,7 @@
   },
   {
     "name": "ktnaOS",
-    "description": "A collection of dark and cyberpunk color schemes",
+    "description": "something fun i made and i forked it from darkthemer so thanks to him :)",
     "preview": "preview.png",
     "readme": "README.md",
     "usercss": "user.css",
