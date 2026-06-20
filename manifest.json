@@ -6,19 +6,19 @@
     "main": "ktnaos.js",
     "readme": "README.md",
     "authors": [
-        { "name": "clack", "url": "https://github.com/clack" }
+        { "name": "mat.sys", "url": "https://github.com/mat2cute" }
     ],
     "tags": ["dashboard", "theme", "terminal"]
   },
   {
-    "name": "ktnaOS Themes",
+    "name": "ktnaOS",
     "description": "A collection of dark and cyberpunk color schemes",
     "preview": "preview.png",
     "readme": "README.md",
     "usercss": "user.css",
     "schemes": "color.ini",
     "authors": [
-        { "name": "clack", "url": "https://github.com/clack" }
+        { "name": "mat.sys", "url": "https://github.com/mat2cute" }
     ],
     "tags": ["dark", "cyberpunk"]
   }
