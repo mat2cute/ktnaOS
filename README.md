@@ -38,7 +38,11 @@ spicetify apply
 ### Step 4: Access the Terminal
 Once Spotify restarts:
 - Click the **Computer icon** in your bottom playbar to open the ktnaOS Terminal overlay.
-- Use commands like `exe skip`, `exe pause`, `exe play`, or `exe vol 50` in the bottom input box.
+- Use the input box at the bottom to control the system. Try:
+  - `exe help` (displays all commands)
+  - `exe usermod [name]` (changes your dashboard username)
+  - `exe skip`, `exe pause`, `exe play`
+  - `exe vol 50`
 - Use the **Palette icon** in your topbar to access the quick Theme Swapper.
 
 

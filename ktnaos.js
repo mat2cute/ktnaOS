@@ -746,7 +746,7 @@
                 React.createElement("input", {
                     autoFocus: true,
                     style: { background: "transparent", border: "none", color: "var(--spice-text)", width: "100%", outline: "none", fontFamily: "monospace", fontSize: "16px" },
-                    placeholder: "exe [cmd] (try: exe skip, exe pause, exe play, exe vol 50)",
+                    placeholder: "exe [cmd] (try: exe help, exe skip, exe vol 50, exe usermod name)",
                     onKeyDown: function(e) {
                         if (e.key === "Enter") {
                             var val = e.currentTarget.value.trim();
@@ -758,6 +758,11 @@
                                 else if (action === "pause") Spicetify.Player.pause();
                                 else if (action === "play") Spicetify.Player.play();
                                 else if (action === "vol" && cmd[1]) Spicetify.Player.setVolume(parseFloat(cmd[1]) / 100);
+                                else if (action === "usermod" && cmd[1]) {
+                                    localStorage.setItem("ktnaos-user", cmd[1]);
+                                    Spicetify.showNotification("ktnaOS: user updated to " + cmd[1]);
+                                }
+                                else if (action === "help") Spicetify.showNotification("ktnaOS cmds:\nexe help\nexe skip/prev\nexe play/pause\nexe vol [0-100]\nexe usermod [name]", false, 4000);
                                 else Spicetify.showNotification("ktnaOS: Unknown command");
                             } else if (val) {
                                 Spicetify.showNotification("ktnaOS: Invalid syntax. Use 'exe [cmd]'");
@@ -895,12 +900,13 @@
         var s = neoUptime % 60;
         
         var themeName = localStorage.getItem("ktnaos-theme") || "ktnaOS";
+        var userName = localStorage.getItem("ktnaos-user") || "user";
         var isPlaying = Spicetify.Player.isPlaying();
         var vol = Math.floor(Spicetify.Player.getVolume() * 100);
         
         var blockGrid = '<span style="color:var(--spice-main)">████</span> <span style="color:var(--spice-sidebar)">████</span> <span style="color:var(--spice-player)">████</span> <span style="color:var(--spice-button)">████</span> <span style="color:var(--spice-button-active)">████</span> <span style="color:var(--spice-text)">████</span> <span style="color:var(--spice-subtext)">████</span>';
 
-        var specs = "user@ktnaOS\n-------------\n<b>OS:</b> ktnaOS\n<b>Kernel:</b> spicetify :)\n<b>Uptime:</b> " + m + "m " + s + "s\n<b>Packages:</b> .ktna\n<b>Shell:</b> meowmium\n<b>Resolution:</b> " + window.innerWidth + "x" + window.innerHeight + "\n<b>WM:</b> ktna-spotify\n<b>Theme:</b> " + themeName + "\n<b>CPU:</b> ktna core imeow @ 9.12 GHz\n<b>Audio:</b> " + vol + "%\n<b>Discord:</b> mat.sys\n\n" + blockGrid;
+        var specs = userName + "@ktnaOS\n-------------\n<b>OS:</b> ktnaOS\n<b>Kernel:</b> spicetify :)\n<b>Uptime:</b> " + m + "m " + s + "s\n<b>Packages:</b> .ktna\n<b>Shell:</b> meowmium\n<b>Resolution:</b> " + window.innerWidth + "x" + window.innerHeight + "\n<b>WM:</b> ktna-spotify\n<b>Theme:</b> " + themeName + "\n<b>CPU:</b> ktna core imeow @ 9.12 GHz\n<b>Audio:</b> " + vol + "%\n<b>Discord:</b> mat.sys\n\n" + blockGrid;
         
         neoFetchContainer.innerHTML = '<div class="katana-logo">' + katanaAscii + '</div><div class="specs-list">' + specs + '</div>';
     }, 1000);
