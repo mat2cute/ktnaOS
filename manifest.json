@@ -17,7 +17,7 @@
     "readme": "README.md",
     "usercss": "user.css",
     "schemes": "color.ini",
-    "include": ["theme.js", "npv-ambience.js"],
+    "include": ["theme.js"],
     "authors": [
         { "name": "mat.sys", "url": "https://github.com/mat2cute" }
     ],
