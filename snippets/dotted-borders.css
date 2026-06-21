@@ -1,0 +1,6 @@
+/* Dotted Borders */
+/* Copy and paste this at the very bottom of your user.css file */
+
+:root {
+    --border-style: dotted !important;
+}

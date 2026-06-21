@@ -1,0 +1,16 @@
+/* CRT Glow & Drop Shadows */
+/* Copy and paste this at the very bottom of your user.css file */
+
+* {
+    text-shadow: 0 0 3px var(--spice-button-active) !important;
+}
+
+.main-rootlist-rootlistItem,
+.main-card-card,
+.main-trackList-trackListRow,
+.Root__nav-bar,
+.Root__main-view,
+.Root__right-sidebar,
+.Root__now-playing-bar {
+    box-shadow: 0 0 8px var(--spice-button-active) !important;
+}
