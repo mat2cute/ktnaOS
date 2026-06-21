@@ -1,6 +1,6 @@
 # ktnaOS
 
-A system-level Spicetify extension and theme pack that transforms Spotify into a cyberpunk terminal.
+A system-level Spicetify extension and theme pack that transforms Spotify into a cool terminal!
 
 **NOTE: This theme is designed to be installed LOCALLY.** The Spicetify Marketplace bundling breaks the execution order of the Javascript payloads. Follow the manual installation guide below.
 
@@ -40,3 +40,11 @@ Once Spotify restarts:
 - Click the **Computer icon** in your bottom playbar to open the ktnaOS Terminal overlay.
 - Use commands like `exe skip`, `exe pause`, `exe play`, or `exe vol 50` in the bottom input box.
 - Use the **Palette icon** in your topbar to access the quick Theme Swapper.
+
+
+#### ALSO PLEASEEEE ADD ME ON DISCORD FOR BUGS OR ANY FEATURE REOCOMMENDATIONS!
+
+### mat.sys
+
+#### you can also add me to donate ig...
+### PLSS IM POOR
