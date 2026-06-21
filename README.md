@@ -44,6 +44,19 @@ Once Spotify restarts:
   - `exe skip`, `exe pause`, `exe play`
   - `exe vol 50`
 - Use the **Palette icon** in your topbar to access the quick Theme Swapper.
+## Customization (Snippets)
+
+We've included a `snippets` folder in this repository with pre-written CSS mods to customize your terminal!
+
+### How to use Snippets:
+1. Open your `user.css` file (located in your `Themes/ktnaOS` folder).
+2. Open the snippet you want to use from the GitHub `snippets` folder (e.g., `crt-glow.css`).
+3. Copy the CSS code and paste it at the **very bottom** of your `user.css` file.
+4. Run `spicetify apply` in your terminal to compile the changes.
+
+#### Available Snippets:
+- **`crt-glow.css`**: Adds authentic glowing drop shadows to text and window borders to simulate a CRT monitor.
+- **`dotted-borders.css`**: Changes the solid borders around the UI into dotted borders. *(Note: You can also just change `--border-style: solid;` to `dotted` on line 62 of your `user.css`!)*
 
 
 #### ALSO PLEASEEEE ADD ME ON DISCORD FOR BUGS OR ANY FEATURE REOCOMMENDATIONS!
