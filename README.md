@@ -59,9 +59,10 @@ We've included a `snippets` folder in this repository with pre-written CSS mods 
 - **`dotted-borders.css`**: Changes the solid borders around the UI into dotted borders. *(Note: You can also just change `--border-style: solid;` to `dotted` on line 62 of your `user.css`!)*
 
 
-#### ALSO PLEASEEEE ADD ME ON DISCORD FOR BUGS OR ANY FEATURE REOCOMMENDATIONS!
+#### also please star this project as it would help me in future projects! :)
 
+#### ALSO PLEASEEEE ADD ME ON DISCORD FOR BUGS OR ANY FEATURE REOCOMMENDATIONS!
 ### mat.sys
 
 #### you can also add me to donate ig...
-### PLSS IM POOR
+## PLSS IM POOR
