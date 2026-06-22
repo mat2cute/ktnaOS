@@ -2,7 +2,7 @@
 
 A system-level Spicetify extension and theme pack that transforms Spotify into a cool terminal!
 
-**NOTE: This theme is designed to be installed LOCALLY.** The Spicetify Marketplace bundling breaks the execution order of the Javascript payloads. Follow the manual installation guide below.
+**NOTE: This theme is designed to be installed LOCALLY.** The Spicetify Marketplace bundling breaks the execution order of the Javascript payloads. Follow the manual installation guide below. 
 
 ## Manual Installation Guide
 
@@ -58,8 +58,7 @@ We've included a `snippets` folder in this repository with pre-written CSS mods 
 - **`crt-glow.css`**: Adds authentic glowing drop shadows to text and window borders to simulate a CRT monitor.
 - **`dotted-borders.css`**: Changes the solid borders around the UI into dotted borders. *(Note: You can also just change `--border-style: solid;` to `dotted` on line 62 of your `user.css`!)*
 
-
-#### also please star this project as it would help me in future projects! :)
+##### also please star this project as it would help me in future projects! :)
 
 #### ALSO PLEASEEEE ADD ME ON DISCORD FOR BUGS OR ANY FEATURE REOCOMMENDATIONS!
 ### mat.sys
