@@ -369,6 +369,22 @@
         }
     };
 
+    let customTheme = localStorage.getItem("ktnaos-custom-theme");
+    try {
+        customTheme = customTheme ? JSON.parse(customTheme) : null;
+    } catch (e) { customTheme = null; }
+
+    themes["Custom"] = customTheme || {
+        main: "#000000", sidebar: "#000000", player: "#000000",
+        text: "#ffffff", subtext: "#aaaaaa", button: "#ffffff",
+        "button-active": "#ff00ff", "button-disabled": "#333333",
+        "tab-active": "#ff00ff", notification: "#ff00ff",
+        "notification-error": "#ff0000", misc: "#222222",
+        "border-active": "#ff00ff", "border-inactive": "#222222",
+        header: "#ff00ff", highlight: "#111111", banner: "#ff00ff",
+        accent: "#ff00ff", "accent-active": "#ffffff", "accent-inactive": "#333333"
+    };
+
     const themeNames = Object.keys(themes);
     let currentThemeIndex = 0;
 
@@ -501,36 +517,95 @@
         applyTheme(themeNames[0], true);
     }
 
-    class ThemeChooser extends React.Component {
+    class CustomThemeEditor extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = { ...themes["Custom"] };
+        }
         render() {
+            const keys = Object.keys(themes["Custom"]);
+            return React.createElement("div", { style: { padding: "16px", maxHeight: "60vh", overflowY: "auto", display: "flex", flexDirection: "column", gap: "16px" } },
+                React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" } },
+                    keys.map(k => 
+                        React.createElement("div", { key: k, style: { display: "flex", justifyContent: "space-between", alignItems: "center", background: "rgba(255,255,255,0.05)", padding: "8px 12px", borderRadius: "8px" } },
+                            React.createElement("span", { style: { color: "var(--spice-text)", fontSize: "14px", fontFamily: "monospace" } }, k),
+                            React.createElement("input", {
+                                type: "color",
+                                value: this.state[k],
+                                onChange: (e) => {
+                                    this.setState({ [k]: e.target.value });
+                                    // Live preview injection
+                                    document.documentElement.style.setProperty("--spice-" + k, e.target.value);
+                                },
+                                style: { background: "transparent", border: "none", cursor: "pointer", width: "40px", height: "40px", padding: 0 }
+                            })
+                        )
+                    )
+                ),
+                React.createElement("div", { style: { display: "flex", gap: "12px", marginTop: "16px" } },
+                    React.createElement("button", {
+                        onClick: () => {
+                            themes["Custom"] = { ...this.state };
+                            localStorage.setItem("ktnaos-custom-theme", JSON.stringify(this.state));
+                            applyTheme("Custom");
+                            Spicetify.PopupModal.hide();
+                        },
+                        style: { flex: 1, padding: "12px", background: "var(--spice-button-active)", color: "var(--spice-main)", border: "none", borderRadius: "8px", fontWeight: "bold", cursor: "pointer", fontFamily: "monospace" }
+                    }, "> SAVE & INJECT"),
+                    React.createElement("button", {
+                        onClick: () => {
+                            applyTheme(localStorage.getItem("ktnaos-theme") || "Cyberpunk"); // Revert live preview
+                            this.props.onBack();
+                        },
+                        style: { flex: 1, padding: "12px", background: "transparent", border: "2px solid var(--spice-button-active)", color: "var(--spice-text)", borderRadius: "8px", fontWeight: "bold", cursor: "pointer", fontFamily: "monospace" }
+                    }, "> ABORT")
+                )
+            );
+        }
+    }
+
+    class ThemeChooser extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = { mode: "grid" };
+        }
+        render() {
+            if (this.state.mode === "edit") {
+                return React.createElement(CustomThemeEditor, { onBack: () => this.setState({ mode: "grid" }) });
+            }
             return React.createElement("div", {
                 style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "16px", padding: "16px", maxHeight: "60vh", overflowY: "auto" }
             }, themeNames.map(name => 
                 React.createElement("div", {
                     key: name,
                     onClick: () => {
+                        if (name === "Custom") {
+                            this.setState({ mode: "edit" });
+                            return;
+                        }
                         applyTheme(name);
                         currentThemeIndex = themeNames.indexOf(name);
                         Spicetify.PopupModal.hide();
                     },
                     style: {
                         background: themes[name].main,
-                        border: `2px solid ${themes[name]['border-active']}`,
+                        border: `2px solid ${name === "Custom" ? "var(--spice-button-active)" : themes[name]['border-active']}`,
                         borderRadius: "8px",
                         padding: "16px",
                         cursor: "pointer",
                         display: "flex",
                         flexDirection: "column",
                         gap: "8px",
-                        alignItems: "center"
+                        alignItems: "center",
+                        borderStyle: name === "Custom" ? "dashed" : "solid"
                     }
                 }, 
-                React.createElement("span", { style: { color: themes[name].text, fontWeight: "bold", fontSize: "14px" } }, name),
-                React.createElement("div", { style: { display: "flex", gap: "8px" } },
+                React.createElement("span", { style: { color: name === "Custom" ? "var(--spice-button-active)" : themes[name].text, fontWeight: "bold", fontSize: "14px" } }, name === "Custom" ? "+ EDIT CUSTOM THEME" : name),
+                name !== "Custom" ? React.createElement("div", { style: { display: "flex", gap: "8px" } },
                     React.createElement("div", { style: { width: "16px", height: "16px", borderRadius: "50%", background: themes[name].button } }),
                     React.createElement("div", { style: { width: "16px", height: "16px", borderRadius: "50%", background: themes[name].header } }),
                     React.createElement("div", { style: { width: "16px", height: "16px", borderRadius: "50%", background: themes[name].banner } })
-                )
+                ) : null
                 )
             ));
         }
