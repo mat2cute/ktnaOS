@@ -573,19 +573,25 @@
                     key: name,
                     onClick: () => {
                         if (name === "Custom") {
-                            Spicetify.PopupModal.display({
-                                title: "Custom Theme Builder",
-                                content: React.createElement(CustomThemeEditor, {
-                                    onBack: () => {
-                                        Spicetify.PopupModal.display({
-                                            title: "ktnaOS Theme Chooser",
-                                            content: React.createElement(ThemeChooser, null),
-                                            isLarge: true
-                                        });
-                                    }
-                                }),
-                                isLarge: true
-                            });
+                            Spicetify.PopupModal.hide();
+                            setTimeout(() => {
+                                Spicetify.PopupModal.display({
+                                    title: "Custom Theme Builder",
+                                    content: React.createElement(CustomThemeEditor, {
+                                        onBack: () => {
+                                            Spicetify.PopupModal.hide();
+                                            setTimeout(() => {
+                                                Spicetify.PopupModal.display({
+                                                    title: "ktnaOS Theme Chooser",
+                                                    content: React.createElement(ThemeChooser, null),
+                                                    isLarge: true
+                                                });
+                                            }, 350);
+                                        }
+                                    }),
+                                    isLarge: true
+                                });
+                            }, 350);
                             return;
                         }
                         applyTheme(name);
