@@ -573,25 +573,19 @@
                     key: name,
                     onClick: () => {
                         if (name === "Custom") {
-                            Spicetify.PopupModal.hide();
-                            setTimeout(() => {
-                                Spicetify.PopupModal.display({
-                                    title: "Custom Theme Builder",
-                                    content: React.createElement(CustomThemeEditor, {
-                                        onBack: () => {
-                                            Spicetify.PopupModal.hide();
-                                            setTimeout(() => {
-                                                Spicetify.PopupModal.display({
-                                                    title: "ktnaOS Theme Chooser",
-                                                    content: React.createElement(ThemeChooser, null),
-                                                    isLarge: true
-                                                });
-                                            }, 100);
-                                        }
-                                    }),
-                                    isLarge: true
-                                });
-                            }, 100);
+                            Spicetify.PopupModal.display({
+                                title: "Custom Theme Builder",
+                                content: React.createElement(CustomThemeEditor, {
+                                    onBack: () => {
+                                        Spicetify.PopupModal.display({
+                                            title: "ktnaOS Theme Chooser",
+                                            content: React.createElement(ThemeChooser, null),
+                                            isLarge: true
+                                        });
+                                    }
+                                }),
+                                isLarge: true
+                            });
                             return;
                         }
                         applyTheme(name);
@@ -610,13 +604,13 @@
                         alignItems: "center",
                         borderStyle: name === "Custom" ? "dashed" : "solid"
                     }
-                }, 
-                React.createElement("span", { style: { color: name === "Custom" ? "var(--spice-button-active)" : themes[name].text, fontWeight: "bold", fontSize: "14px" } }, name === "Custom" ? "+ EDIT CUSTOM THEME" : name),
-                name !== "Custom" ? React.createElement("div", { style: { display: "flex", gap: "8px" } },
+                },
+                React.createElement("span", { style: { color: name === "Custom" ? "var(--spice-button-active)" : themes[name].text, fontWeight: "bold", fontSize: "14px", textAlign: "center", whiteSpace: "nowrap" } }, name === "Custom" ? "+ CUSTOM THEME" : name),
+                React.createElement("div", { style: { display: "flex", gap: "8px" } },
                     React.createElement("div", { style: { width: "16px", height: "16px", borderRadius: "50%", background: themes[name].button } }),
                     React.createElement("div", { style: { width: "16px", height: "16px", borderRadius: "50%", background: themes[name].header } }),
                     React.createElement("div", { style: { width: "16px", height: "16px", borderRadius: "50%", background: themes[name].banner } })
-                ) : null
+                )
                 )
             ));
         }
