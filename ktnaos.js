@@ -555,7 +555,7 @@
                     React.createElement("button", {
                         onClick: () => {
                             applyTheme(localStorage.getItem("ktnaos-theme") || "Cyberpunk"); // Revert live preview
-                            this.props.onBack();
+                            if (this.props.onBack) this.props.onBack();
                         },
                         style: { flex: 1, padding: "12px", background: "transparent", border: "2px solid var(--spice-button-active)", color: "var(--spice-text)", borderRadius: "8px", fontWeight: "bold", cursor: "pointer", fontFamily: "monospace" }
                     }, "> ABORT")
@@ -565,14 +565,7 @@
     }
 
     class ThemeChooser extends React.Component {
-        constructor(props) {
-            super(props);
-            this.state = { mode: "grid" };
-        }
         render() {
-            if (this.state.mode === "edit") {
-                return React.createElement(CustomThemeEditor, { onBack: () => this.setState({ mode: "grid" }) });
-            }
             return React.createElement("div", {
                 style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "16px", padding: "16px", maxHeight: "60vh", overflowY: "auto" }
             }, themeNames.map(name => 
@@ -580,7 +573,25 @@
                     key: name,
                     onClick: () => {
                         if (name === "Custom") {
-                            this.setState({ mode: "edit" });
+                            Spicetify.PopupModal.hide();
+                            setTimeout(() => {
+                                Spicetify.PopupModal.display({
+                                    title: "Custom Theme Builder",
+                                    content: React.createElement(CustomThemeEditor, {
+                                        onBack: () => {
+                                            Spicetify.PopupModal.hide();
+                                            setTimeout(() => {
+                                                Spicetify.PopupModal.display({
+                                                    title: "ktnaOS Theme Chooser",
+                                                    content: React.createElement(ThemeChooser, null),
+                                                    isLarge: true
+                                                });
+                                            }, 100);
+                                        }
+                                    }),
+                                    isLarge: true
+                                });
+                            }, 100);
                             return;
                         }
                         applyTheme(name);
