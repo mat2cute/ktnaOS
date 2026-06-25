@@ -832,6 +832,11 @@ form .main-topBar-searchBar:placeholder-shown {
     font-weight: bold;
 }
 
+/* Hide all future lines so it looks like it's printing line by line */
+.lyrics-lyricsContent-active ~ .lyrics-lyricsContent-lyric {
+    opacity: 0 !important;
+}
+
 /* Prefix arrow for active line */
 .lyrics-lyricsContent-lyric:not(:empty)::before {
     content: "> ";
