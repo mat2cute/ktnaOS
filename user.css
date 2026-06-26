@@ -1416,58 +1416,98 @@ body:not(.is-playing) .x-progressBar-fillColor {
     animation-play-state: paused;
 }
 
-/* ---- TRUE LIQUID GLASS THEME OVERRIDES ---- */
-body[data-ktna-theme="Liquid Glass"] {
-    --spice-main: transparent !important;
-    --spice-sidebar: transparent !important;
-    --spice-player: transparent !important;
-    --spice-card: transparent !important;
-    --background-base: transparent !important;
-    --background-highlight: transparent !important;
-    --background-press: transparent !important;
-    --background-elevated-base: transparent !important;
-    --background-elevated-highlight: transparent !important;
-    --background-elevated-press: transparent !important;
-    --background-tinted-base: transparent !important;
-    --background-tinted-highlight: transparent !important;
-    --background-tinted-press: transparent !important;
+/* ================================================================
+   LIQUID GLASS THEME — CLEAN IMPLEMENTATION
+   Strategy: Don't nullify global vars (breaks text colors).
+   Instead surgically zero out background-color on every
+   container that Spotify / ktnaOS paints opaque, then let the
+   glass panels sit on top of the ::before blurred backdrop.
+   ================================================================ */
+
+/* 1 ── Body canvas is transparent so the ::before canvas shows */
+body[data-ktna-theme="Liquid Glass"],
+body[data-ktna-theme="Liquid Glass"] .Root,
+body[data-ktna-theme="Liquid Glass"] .Root__top-container,
+body[data-ktna-theme="Liquid Glass"] #main,
+body[data-ktna-theme="Liquid Glass"] .under-main-view,
+body[data-ktna-theme="Liquid Glass"] .main-view-container,
+body[data-ktna-theme="Liquid Glass"] .main-view-container__scroll-node,
+body[data-ktna-theme="Liquid Glass"] .main-view-container__scroll-node-child,
+body[data-ktna-theme="Liquid Glass"] .main-view-container__scroll-node-child-spacer,
+body[data-ktna-theme="Liquid Glass"] .os-host,
+body[data-ktna-theme="Liquid Glass"] .os-padding,
+body[data-ktna-theme="Liquid Glass"] .os-viewport,
+body[data-ktna-theme="Liquid Glass"] .os-content {
     background: transparent !important;
+    background-color: transparent !important;
 }
 
-/* Force text colors that vanish when background variables are transparent */
-body[data-ktna-theme="Liquid Glass"] .main-nowPlayingView-contextItemInfo,
-body[data-ktna-theme="Liquid Glass"] .main-nowPlayingView-contextItemInfo *,
-body[data-ktna-theme="Liquid Glass"] .main-trackInfo-name,
-body[data-ktna-theme="Liquid Glass"] .main-trackInfo-artists,
-body[data-ktna-theme="Liquid Glass"] .main-trackInfo-container,
-body[data-ktna-theme="Liquid Glass"] .main-trackInfo-container * {
-    color: var(--spice-text) !important;
-    -webkit-text-fill-color: var(--spice-text) !important;
+/* 2 ── Strip specific decorative backgrounds that paint over the blur */
+body[data-ktna-theme="Liquid Glass"] .main-topBar-background,
+body[data-ktna-theme="Liquid Glass"] .main-home-filterChipsSection,
+body[data-ktna-theme="Liquid Glass"] .main-home-filterChipsSection::after,
+body[data-ktna-theme="Liquid Glass"] .main-trackList-trackListHeader,
+body[data-ktna-theme="Liquid Glass"] .main-trackList-trackListHeaderStuck,
+body[data-ktna-theme="Liquid Glass"] .main-yourLibraryX-libraryContainer,
+body[data-ktna-theme="Liquid Glass"] .main-topBar-searchBar,
+body[data-ktna-theme="Liquid Glass"] .main-globalNav-navLink,
+body[data-ktna-theme="Liquid Glass"] .main-entityHeader-background,
+body[data-ktna-theme="Liquid Glass"] .main-entityHeader-overlay,
+body[data-ktna-theme="Liquid Glass"] .main-home-homeHeader,
+body[data-ktna-theme="Liquid Glass"] .lyrics-lyrics-background,
+body[data-ktna-theme="Liquid Glass"] .Root__lyrics-cinema,
+body[data-ktna-theme="Liquid Glass"] .x-entityImage-imageContainer {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
 }
 
-/* Apple-style Floating Glass Panels */
+/* 3 ── The four Apple-style frosted glass panels */
 body[data-ktna-theme="Liquid Glass"] .Root__main-view,
 body[data-ktna-theme="Liquid Glass"] .Root__nav-bar,
 body[data-ktna-theme="Liquid Glass"] .Root__right-sidebar,
 body[data-ktna-theme="Liquid Glass"] .main-nowPlayingBar-container {
-    background-color: rgba(0, 0, 0, 0.4) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    background-color: rgba(8, 16, 24, 0.55) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
     border-radius: 12px !important;
     margin: 8px !important;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6) !important;
-    backdrop-filter: blur(25px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: blur(30px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(30px) saturate(160%) !important;
 }
 
-/* The true blurred background */
+/* 4 ── Force the Now Playing bottom bar track info to always be visible */
+body[data-ktna-theme="Liquid Glass"] .main-nowPlayingWidget-nowPlaying,
+body[data-ktna-theme="Liquid Glass"] .main-nowPlayingBar-left {
+    display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* 5 ── Force text color so Spotify's dynamic color engine can't make it transparent */
+body[data-ktna-theme="Liquid Glass"] .main-trackInfo-name a,
+body[data-ktna-theme="Liquid Glass"] .main-trackInfo-artists a,
+body[data-ktna-theme="Liquid Glass"] .main-trackInfo-name span,
+body[data-ktna-theme="Liquid Glass"] .main-trackInfo-artists span,
+body[data-ktna-theme="Liquid Glass"] [data-testid="context-item-link"],
+body[data-ktna-theme="Liquid Glass"] [data-testid="context-item-info-title"],
+body[data-ktna-theme="Liquid Glass"] [data-testid="context-item-info-artist"] {
+    color: #E0F2FE !important;
+    -webkit-text-fill-color: #E0F2FE !important;
+    opacity: 1 !important;
+}
+
+/* 6 ── Blurred album art backdrop that fills the entire Spotify window */
 body[data-ktna-theme="Liquid Glass"]::before {
     content: "";
     position: fixed;
-    top: -5%; left: -5%; width: 110vw; height: 110vh;
-    background-image: var(--ktna-bg-image, linear-gradient(135deg, #0284c7, #38bdf8)) !important;
+    top: -5%; left: -5%;
+    width: 110vw; height: 110vh;
+    background-image: var(--ktna-bg-image, linear-gradient(135deg, #0284c7, #38bdf8));
     background-size: cover;
     background-position: center;
     filter: blur(40px) saturate(150%);
     z-index: -1;
     pointer-events: none;
 }
+
