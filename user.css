@@ -1431,50 +1431,53 @@ body[data-ktna-theme="Liquid Glass"] {
     --background-tinted-base: transparent !important;
     --background-tinted-highlight: transparent !important;
     --background-tinted-press: transparent !important;
-}
-
-body[data-ktna-theme="Liquid Glass"] .Root__main-view,
-body[data-ktna-theme="Liquid Glass"] .Root__nav-bar,
-body[data-ktna-theme="Liquid Glass"] .Root__right-sidebar,
-body[data-ktna-theme="Liquid Glass"] .main-nowPlayingBar-container,
-body[data-ktna-theme="Liquid Glass"] .main-view-container__scroll-node-child {
-    background-color: rgba(8, 16, 24, 0.4) !important;
-    backdrop-filter: blur(25px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05) !important;
-}
-
-body[data-ktna-theme="Liquid Glass"] .main-entityHeader-background,
-body[data-ktna-theme="Liquid Glass"] .main-entityHeader-overlay,
-body[data-ktna-theme="Liquid Glass"] .main-home-homeHeader,
-body[data-ktna-theme="Liquid Glass"] .Root,
-body[data-ktna-theme="Liquid Glass"] .Root__top-container,
-body[data-ktna-theme="Liquid Glass"] #main,
-body[data-ktna-theme="Liquid Glass"] .main-view-container__scroll-node-child-spacer {
-    background-color: transparent !important;
+    
     background: transparent !important;
 }
 
-/* Inject Album Art Background */
-body[data-ktna-theme="Liquid Glass"] {
-    background-image: var(--ktna-bg-image, linear-gradient(135deg, #0284c7, #38bdf8)) !important;
-    background-size: cover !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
-    position: relative;
-    z-index: 0;
+/* Force all underlying containers to be completely invisible */
+body[data-ktna-theme="Liquid Glass"] .Root,
+body[data-ktna-theme="Liquid Glass"] .Root__top-container,
+body[data-ktna-theme="Liquid Glass"] #main,
+body[data-ktna-theme="Liquid Glass"] .main-view-container,
+body[data-ktna-theme="Liquid Glass"] .main-view-container__scroll-node,
+body[data-ktna-theme="Liquid Glass"] .main-view-container__scroll-node-child-spacer,
+body[data-ktna-theme="Liquid Glass"] .under-main-view,
+body[data-ktna-theme="Liquid Glass"] .os-host,
+body[data-ktna-theme="Liquid Glass"] .os-padding,
+body[data-ktna-theme="Liquid Glass"] .os-viewport,
+body[data-ktna-theme="Liquid Glass"] .os-content,
+body[data-ktna-theme="Liquid Glass"] .main-entityHeader-background,
+body[data-ktna-theme="Liquid Glass"] .main-entityHeader-overlay,
+body[data-ktna-theme="Liquid Glass"] .main-home-homeHeader,
+body[data-ktna-theme="Liquid Glass"] .main-view-container__scroll-node-child {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
 }
 
+/* Apple-style Floating Glass Panels */
+body[data-ktna-theme="Liquid Glass"] .Root__main-view,
+body[data-ktna-theme="Liquid Glass"] .Root__nav-bar,
+body[data-ktna-theme="Liquid Glass"] .Root__right-sidebar,
+body[data-ktna-theme="Liquid Glass"] .main-nowPlayingBar-container {
+    background-color: rgba(0, 0, 0, 0.4) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px !important;
+    margin: 8px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6) !important;
+    overflow: hidden !important;
+}
+
+/* The true blurred background */
 body[data-ktna-theme="Liquid Glass"]::before {
     content: "";
     position: fixed;
-    top: -10%; left: -10%; width: 120vw; height: 120vh;
+    top: -5%; left: -5%; width: 110vw; height: 110vh;
     background-image: var(--ktna-bg-image, linear-gradient(135deg, #0284c7, #38bdf8)) !important;
     background-size: cover;
     background-position: center;
-    filter: blur(50px) saturate(200%);
+    filter: blur(40px) saturate(150%);
     z-index: -1;
     pointer-events: none;
-    opacity: 0.8;
 }
