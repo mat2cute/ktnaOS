@@ -1466,7 +1466,16 @@ body[data-ktna-theme="Liquid Glass"] .main-nowPlayingBar-container {
     border-radius: 12px !important;
     margin: 8px !important;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6) !important;
-    overflow: hidden !important;
+}
+
+/* Force Track Info to be visible in Liquid Glass (Overrides responsive hiding) */
+body[data-ktna-theme="Liquid Glass"] .main-trackInfo-name,
+body[data-ktna-theme="Liquid Glass"] .main-trackInfo-artists,
+body[data-ktna-theme="Liquid Glass"] .main-nowPlayingWidget-nowPlaying {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: var(--spice-text) !important;
 }
 
 /* The true blurred background */
