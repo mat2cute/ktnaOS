@@ -1418,20 +1418,6 @@ body:not(.is-playing) .x-progressBar-fillColor {
 
 /* ---- TRUE LIQUID GLASS THEME OVERRIDES ---- */
 body[data-ktna-theme="Liquid Glass"] {
-    --spice-main: transparent !important;
-    --spice-sidebar: transparent !important;
-    --spice-player: transparent !important;
-    --spice-card: transparent !important;
-    --background-base: transparent !important;
-    --background-highlight: transparent !important;
-    --background-press: transparent !important;
-    --background-elevated-base: transparent !important;
-    --background-elevated-highlight: transparent !important;
-    --background-elevated-press: transparent !important;
-    --background-tinted-base: transparent !important;
-    --background-tinted-highlight: transparent !important;
-    --background-tinted-press: transparent !important;
-    
     background: transparent !important;
 }
 
