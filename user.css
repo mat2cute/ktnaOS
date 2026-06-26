@@ -1418,35 +1418,31 @@ body:not(.is-playing) .x-progressBar-fillColor {
 
 /* ---- TRUE LIQUID GLASS THEME OVERRIDES ---- */
 body[data-ktna-theme="Liquid Glass"] {
+    --spice-main: transparent !important;
+    --spice-sidebar: transparent !important;
+    --spice-player: transparent !important;
+    --spice-card: transparent !important;
+    --background-base: transparent !important;
+    --background-highlight: transparent !important;
+    --background-press: transparent !important;
+    --background-elevated-base: transparent !important;
+    --background-elevated-highlight: transparent !important;
+    --background-elevated-press: transparent !important;
+    --background-tinted-base: transparent !important;
+    --background-tinted-highlight: transparent !important;
+    --background-tinted-press: transparent !important;
     background: transparent !important;
 }
 
-/* Strip hardcoded opaque backgrounds from ktnaOS child containers */
-body[data-ktna-theme="Liquid Glass"] .Root,
-body[data-ktna-theme="Liquid Glass"] .Root__top-container,
-body[data-ktna-theme="Liquid Glass"] #main,
-body[data-ktna-theme="Liquid Glass"] .main-view-container,
-body[data-ktna-theme="Liquid Glass"] .main-view-container__scroll-node,
-body[data-ktna-theme="Liquid Glass"] .main-view-container__scroll-node-child-spacer,
-body[data-ktna-theme="Liquid Glass"] .under-main-view,
-body[data-ktna-theme="Liquid Glass"] .os-host,
-body[data-ktna-theme="Liquid Glass"] .os-padding,
-body[data-ktna-theme="Liquid Glass"] .os-viewport,
-body[data-ktna-theme="Liquid Glass"] .os-content,
-body[data-ktna-theme="Liquid Glass"] .main-entityHeader-background,
-body[data-ktna-theme="Liquid Glass"] .main-entityHeader-overlay,
-body[data-ktna-theme="Liquid Glass"] .main-home-homeHeader,
-body[data-ktna-theme="Liquid Glass"] .main-view-container__scroll-node-child,
-body[data-ktna-theme="Liquid Glass"] .main-topBar-background,
-body[data-ktna-theme="Liquid Glass"] .main-home-filterChipsSection,
-body[data-ktna-theme="Liquid Glass"] .main-trackList-trackListHeader,
-body[data-ktna-theme="Liquid Glass"] .main-yourLibraryX-libraryContainer,
-body[data-ktna-theme="Liquid Glass"] .main-topBar-searchBar,
-body[data-ktna-theme="Liquid Glass"] .lyrics-lyrics-background,
-body[data-ktna-theme="Liquid Glass"] .Root__lyrics-cinema {
-    background: transparent !important;
-    background-color: transparent !important;
-    box-shadow: none !important;
+/* Force text colors that vanish when background variables are transparent */
+body[data-ktna-theme="Liquid Glass"] .main-nowPlayingView-contextItemInfo,
+body[data-ktna-theme="Liquid Glass"] .main-nowPlayingView-contextItemInfo *,
+body[data-ktna-theme="Liquid Glass"] .main-trackInfo-name,
+body[data-ktna-theme="Liquid Glass"] .main-trackInfo-artists,
+body[data-ktna-theme="Liquid Glass"] .main-trackInfo-container,
+body[data-ktna-theme="Liquid Glass"] .main-trackInfo-container * {
+    color: var(--spice-text) !important;
+    -webkit-text-fill-color: var(--spice-text) !important;
 }
 
 /* Apple-style Floating Glass Panels */
