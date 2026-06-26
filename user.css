@@ -455,19 +455,36 @@ img[src*="equaliser"] {
 
 /* scrollbars */
 .os-scrollbar-handle {
-    border-radius: var(--border-radius) !important;
-    width: 2px !important;
+    border-radius: 0 !important;
+    width: 12px !important;
     position: absolute;
     top: 0;
     right: 0;
+    background-color: var(--spice-button-active) !important;
+    box-shadow: 0 0 8px var(--spice-button-active) !important;
+    opacity: 0.8 !important;
+    transition: none !important;
 }
-.os-scrollbar-handle:hover {
-    border-radius: var(--border-radius) !important;
-    width: 6px !important;
+.os-scrollbar-handle:hover,
+.os-scrollbar-handle:active {
+    width: 12px !important;
+    opacity: 1 !important;
+    background-color: var(--spice-text) !important;
+    box-shadow: 0 0 12px var(--spice-text) !important;
+    transition: none !important;
+}
+.os-scrollbar-track {
+    background: transparent !important;
+    border-left: 1px dashed var(--spice-subtext) !important;
+    width: 12px !important;
+    transition: none !important;
 }
 .os-scrollbar-vertical {
-    top: 5px !important;
-    right: 5px !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 12px !important;
+    padding: 0 !important;
 }
 
 /* context menus + tippy boxes */
