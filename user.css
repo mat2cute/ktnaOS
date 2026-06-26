@@ -1421,7 +1421,7 @@ body[data-ktna-theme="Liquid Glass"] {
     background: transparent !important;
 }
 
-/* Force all underlying containers to be completely invisible */
+/* Strip hardcoded opaque backgrounds from ktnaOS child containers */
 body[data-ktna-theme="Liquid Glass"] .Root,
 body[data-ktna-theme="Liquid Glass"] .Root__top-container,
 body[data-ktna-theme="Liquid Glass"] #main,
@@ -1436,7 +1436,14 @@ body[data-ktna-theme="Liquid Glass"] .os-content,
 body[data-ktna-theme="Liquid Glass"] .main-entityHeader-background,
 body[data-ktna-theme="Liquid Glass"] .main-entityHeader-overlay,
 body[data-ktna-theme="Liquid Glass"] .main-home-homeHeader,
-body[data-ktna-theme="Liquid Glass"] .main-view-container__scroll-node-child {
+body[data-ktna-theme="Liquid Glass"] .main-view-container__scroll-node-child,
+body[data-ktna-theme="Liquid Glass"] .main-topBar-background,
+body[data-ktna-theme="Liquid Glass"] .main-home-filterChipsSection,
+body[data-ktna-theme="Liquid Glass"] .main-trackList-trackListHeader,
+body[data-ktna-theme="Liquid Glass"] .main-yourLibraryX-libraryContainer,
+body[data-ktna-theme="Liquid Glass"] .main-topBar-searchBar,
+body[data-ktna-theme="Liquid Glass"] .lyrics-lyrics-background,
+body[data-ktna-theme="Liquid Glass"] .Root__lyrics-cinema {
     background: transparent !important;
     background-color: transparent !important;
     box-shadow: none !important;
@@ -1452,6 +1459,8 @@ body[data-ktna-theme="Liquid Glass"] .main-nowPlayingBar-container {
     border-radius: 12px !important;
     margin: 8px !important;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(25px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
 }
 
 /* The true blurred background */
