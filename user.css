@@ -1417,6 +1417,22 @@ body:not(.is-playing) .x-progressBar-fillColor {
 }
 
 /* ---- TRUE LIQUID GLASS THEME OVERRIDES ---- */
+body[data-ktna-theme="Liquid Glass"] {
+    --spice-main: transparent !important;
+    --spice-sidebar: transparent !important;
+    --spice-player: transparent !important;
+    --spice-card: transparent !important;
+    --background-base: transparent !important;
+    --background-highlight: transparent !important;
+    --background-press: transparent !important;
+    --background-elevated-base: transparent !important;
+    --background-elevated-highlight: transparent !important;
+    --background-elevated-press: transparent !important;
+    --background-tinted-base: transparent !important;
+    --background-tinted-highlight: transparent !important;
+    --background-tinted-press: transparent !important;
+}
+
 body[data-ktna-theme="Liquid Glass"] .Root__main-view,
 body[data-ktna-theme="Liquid Glass"] .Root__nav-bar,
 body[data-ktna-theme="Liquid Glass"] .Root__right-sidebar,
@@ -1442,7 +1458,6 @@ body[data-ktna-theme="Liquid Glass"] .main-view-container__scroll-node-child-spa
 
 /* Inject Album Art Background */
 body[data-ktna-theme="Liquid Glass"] {
-    background-color: var(--spice-main) !important;
     background-image: var(--ktna-bg-image, linear-gradient(135deg, #0284c7, #38bdf8)) !important;
     background-size: cover !important;
     background-position: center !important;
