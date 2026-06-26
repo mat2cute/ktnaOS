@@ -1456,21 +1456,42 @@ body[data-ktna-theme="Liquid Glass"] .x-entityImage-imageContainer {
     box-shadow: none !important;
 }
 
-/* The glass panels — barely-there dark tint, bright specular top rim */
+/* Override the global ktnaOS pane-border rule that force-paints spice-main on nav/sidebar */
+body[data-ktna-theme="Liquid Glass"] .Root__globalNav,
+body[data-ktna-theme="Liquid Glass"] .main-yourLibraryX-entryPoints,
+body[data-ktna-theme="Liquid Glass"] .Root__right-sidebar:has(aside:not(:empty)) {
+    background-color: transparent !important;
+    border-color: transparent !important;
+}
+
+/* Strip opaque backgrounds from inner sidebar / library / globalNav children */
+body[data-ktna-theme="Liquid Glass"] .Root__nav-bar aside,
+body[data-ktna-theme="Liquid Glass"] .Root__right-sidebar aside,
+body[data-ktna-theme="Liquid Glass"] .main-yourLibraryX-entryPoints,
+body[data-ktna-theme="Liquid Glass"] .main-yourLibraryX-libraryContainer,
+body[data-ktna-theme="Liquid Glass"] .main-nowPlayingView-container,
+body[data-ktna-theme="Liquid Glass"] .Root__globalNav::before,
+body[data-ktna-theme="Liquid Glass"] .main-globalNav-searchContainer {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* ALL glass panels — barely-there dark tint, bright specular rim */
 body[data-ktna-theme="Liquid Glass"] .Root__main-view,
 body[data-ktna-theme="Liquid Glass"] .Root__nav-bar,
 body[data-ktna-theme="Liquid Glass"] .Root__right-sidebar,
+body[data-ktna-theme="Liquid Glass"] .Root__globalNav,
 body[data-ktna-theme="Liquid Glass"] .main-nowPlayingBar-container {
-    background: rgba(10, 15, 30, 0.3) !important;
+    background: rgba(10, 15, 30, 0.28) !important;
+    border: none !important;
     border-radius: 16px !important;
     margin: 8px !important;
-    /* Specular rim — the single thing that makes glass look like glass */
-    outline: 1.5px solid rgba(255, 255, 255, 0.55) !important;
+    outline: 1.5px solid rgba(255, 255, 255, 0.5) !important;
     box-shadow:
         inset 0 0 0 1px rgba(255, 255, 255, 0.08),
-        0 0 0 1px rgba(0, 0, 0, 0.15),
-        0 8px 40px rgba(0, 0, 0, 0.55),
-        0 2px 8px rgba(0, 0, 0, 0.3) !important;
+        0 8px 40px rgba(0, 0, 0, 0.5),
+        0 2px 8px rgba(0, 0, 0, 0.25) !important;
     backdrop-filter: blur(40px) saturate(180%) !important;
     -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
 }
@@ -1486,6 +1507,8 @@ body[data-ktna-theme="Liquid Glass"] .main-nowPlayingBar-left {
 /* All text inside panels: white + subtle shadow */
 body[data-ktna-theme="Liquid Glass"] .Root__main-view *:not(img):not(svg):not(path):not(circle):not(rect):not(canvas),
 body[data-ktna-theme="Liquid Glass"] .Root__nav-bar *:not(img):not(svg):not(path):not(circle):not(rect):not(canvas),
+body[data-ktna-theme="Liquid Glass"] .Root__right-sidebar *:not(img):not(svg):not(path):not(circle):not(rect):not(canvas),
+body[data-ktna-theme="Liquid Glass"] .Root__globalNav *:not(img):not(svg):not(path):not(circle):not(rect):not(canvas),
 body[data-ktna-theme="Liquid Glass"] .main-nowPlayingBar-container *:not(img):not(svg):not(path):not(circle):not(rect):not(canvas) {
     color: rgba(255, 255, 255, 0.9) !important;
     -webkit-text-fill-color: rgba(255, 255, 255, 0.9) !important;
