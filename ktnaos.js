@@ -505,7 +505,21 @@
         img.src = imgUrl;
     }
 
+    function updateAlbumArtBg() {
+        try {
+            var track = Spicetify.Player.data ? (Spicetify.Player.data.track || Spicetify.Player.data.item || Spicetify.Player.data) : null;
+            if (track && track.metadata && (track.metadata.image_xlarge_url || track.metadata.image_url)) {
+                let imgUrl = track.metadata.image_xlarge_url || track.metadata.image_url;
+                if (imgUrl.startsWith("spotify:image:")) {
+                    imgUrl = "https://i.scdn.co/image/" + imgUrl.replace("spotify:image:", "");
+                }
+                document.documentElement.style.setProperty("--ktna-bg-image", "url('" + imgUrl + "')");
+            }
+        } catch (e) {}
+    }
+
     function triggerExtraction() {
+        updateAlbumArtBg();
         if (localStorage.getItem("ktnaos-theme") !== "Anything Theme") return;
         setTimeout(function() {
             var track = Spicetify.Player.data ? (Spicetify.Player.data.track || Spicetify.Player.data.item || Spicetify.Player.data) : null;
@@ -518,6 +532,7 @@
     }
 
     Spicetify.Player.addEventListener("songchange", triggerExtraction);
+    setTimeout(updateAlbumArtBg, 1500);
 
     var savedTheme = localStorage.getItem("ktnaos-theme");
     if (savedTheme && themes[savedTheme]) {
