@@ -357,6 +357,16 @@
             header: "#261447", highlight: "#FF3864", banner: "#00FFFF",
             accent: "#FF007F", "accent-active": "#FF9900", "accent-inactive": "#0D0221"
         },
+        "Liquid Glass": {
+            main: "#081018", sidebar: "#081018", player: "#081018",
+            text: "#E0F2FE", subtext: "#7DD3FC", button: "#38BDF8",
+            "button-active": "#0284C7", "button-disabled": "#0C4A6E",
+            "tab-active": "#0284C7", notification: "#7DD3FC",
+            "notification-error": "#F07178", misc: "#0C4A6E",
+            "border-active": "#38BDF8", "border-inactive": "#0C4A6E",
+            header: "#0C4A6E", highlight: "#0EA5E9", banner: "#38BDF8",
+            accent: "#38BDF8", "accent-active": "#0284C7", "accent-inactive": "#081018"
+        },
         "Material Ocean": {
             main: "#0F111A", sidebar: "#0F111A", player: "#0F111A",
             text: "#FFFFFF", subtext: "#A6ACCD", button: "#00BCD4",
