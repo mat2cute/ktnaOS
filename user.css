@@ -1431,14 +1431,19 @@ body[data-ktna-theme="Liquid Glass"] .main-view-container__scroll-node-child {
 
 body[data-ktna-theme="Liquid Glass"] .main-entityHeader-background,
 body[data-ktna-theme="Liquid Glass"] .main-entityHeader-overlay,
-body[data-ktna-theme="Liquid Glass"] .main-home-homeHeader {
+body[data-ktna-theme="Liquid Glass"] .main-home-homeHeader,
+body[data-ktna-theme="Liquid Glass"] .Root,
+body[data-ktna-theme="Liquid Glass"] .Root__top-container,
+body[data-ktna-theme="Liquid Glass"] #main,
+body[data-ktna-theme="Liquid Glass"] .main-view-container__scroll-node-child-spacer {
     background-color: transparent !important;
+    background: transparent !important;
 }
 
 /* Inject Album Art Background */
 body[data-ktna-theme="Liquid Glass"] {
     background-color: var(--spice-main) !important;
-    background-image: var(--ktna-bg-image, none) !important;
+    background-image: var(--ktna-bg-image, linear-gradient(135deg, #0284c7, #38bdf8)) !important;
     background-size: cover !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
@@ -1448,9 +1453,9 @@ body[data-ktna-theme="Liquid Glass"] {
 
 body[data-ktna-theme="Liquid Glass"]::before {
     content: "";
-    position: absolute;
+    position: fixed;
     top: -10%; left: -10%; width: 120vw; height: 120vh;
-    background-image: var(--ktna-bg-image, none) !important;
+    background-image: var(--ktna-bg-image, linear-gradient(135deg, #0284c7, #38bdf8)) !important;
     background-size: cover;
     background-position: center;
     filter: blur(50px) saturate(200%);
