@@ -1415,3 +1415,26 @@ body.is-idle #ktna-neofetch {
 body:not(.is-playing) .x-progressBar-fillColor {
     animation-play-state: paused;
 }
+
+/* ---- TRUE LIQUID GLASS THEME OVERRIDES ---- */
+body[data-ktna-theme="Liquid Glass"] .Root__main-view,
+body[data-ktna-theme="Liquid Glass"] .Root__nav-bar,
+body[data-ktna-theme="Liquid Glass"] .Root__right-sidebar,
+body[data-ktna-theme="Liquid Glass"] .main-nowPlayingBar-container,
+body[data-ktna-theme="Liquid Glass"] .main-view-container__scroll-node-child {
+    background-color: rgba(8, 16, 24, 0.3) !important;
+    backdrop-filter: blur(25px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05) !important;
+}
+
+body[data-ktna-theme="Liquid Glass"] .main-entityHeader-background,
+body[data-ktna-theme="Liquid Glass"] .main-entityHeader-overlay,
+body[data-ktna-theme="Liquid Glass"] .main-home-homeHeader {
+    background-color: transparent !important;
+}
+
+body[data-ktna-theme="Liquid Glass"] {
+    background: transparent !important;
+}
