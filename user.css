@@ -810,18 +810,7 @@ form .main-topBar-searchBar:placeholder-shown {
     letter-spacing: 0px !important;
 }
 
-/* Terminal Header Injection */
-.lyrics-lyricsContent-provider {
-    position: relative;
-}
-.lyrics-lyricsContent-provider::before {
-    content: "[PROCESS: LYRICS_SYNC_ESTABLISHED]\n====================================\n\n";
-    color: var(--spice-button-active);
-    font-family: monospace !important;
-    white-space: pre-wrap;
-    display: block;
-    margin-bottom: 32px;
-}
+
 
 .lyrics-lyricsContent-lyric {
     opacity: 0.5;
