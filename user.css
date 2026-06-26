@@ -1462,28 +1462,27 @@ body[data-ktna-theme="Liquid Glass"] .x-entityImage-imageContainer {
     box-shadow: none !important;
 }
 
-/* 3 ── TRUE Liquid Glass panels (visionOS / iOS 26 style) */
-/* Light translucent tint + specular top highlight + heavy blur behind */
+/* 3 ── Liquid Glass panels */
 body[data-ktna-theme="Liquid Glass"] .Root__main-view,
 body[data-ktna-theme="Liquid Glass"] .Root__nav-bar,
 body[data-ktna-theme="Liquid Glass"] .Root__right-sidebar,
 body[data-ktna-theme="Liquid Glass"] .main-nowPlayingBar-container {
-    background: rgba(255, 255, 255, 0.04) !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.6) !important;
-    border-left: 1px solid rgba(255, 255, 255, 0.3) !important;
+    background: rgba(0, 0, 0, 0.25) !important;
+    border-top: 1.5px solid rgba(255, 255, 255, 0.7) !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.35) !important;
     border-right: 1px solid rgba(255, 255, 255, 0.15) !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
     border-radius: 16px !important;
     margin: 8px !important;
     box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.5),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.1),
-        0 20px 60px rgba(0, 0, 0, 0.4) !important;
-    backdrop-filter: blur(80px) saturate(220%) brightness(1.05) !important;
-    -webkit-backdrop-filter: blur(80px) saturate(220%) brightness(1.05) !important;
+        inset 0 1px 0 rgba(255, 255, 255, 0.45),
+        0 4px 6px rgba(0, 0, 0, 0.1),
+        0 20px 60px rgba(0, 0, 0, 0.45) !important;
+    backdrop-filter: blur(60px) saturate(250%) brightness(1.15) !important;
+    -webkit-backdrop-filter: blur(60px) saturate(250%) brightness(1.15) !important;
 }
 
-/* 4 ── Force the Now Playing bottom bar track info to always be visible */
+/* 4 ── Force track info visibility */
 body[data-ktna-theme="Liquid Glass"] .main-nowPlayingWidget-nowPlaying,
 body[data-ktna-theme="Liquid Glass"] .main-nowPlayingBar-left {
     display: flex !important;
@@ -1491,40 +1490,33 @@ body[data-ktna-theme="Liquid Glass"] .main-nowPlayingBar-left {
     visibility: visible !important;
 }
 
-/* 5 ── Force text color readable on the light frosted glass panel */
-body[data-ktna-theme="Liquid Glass"] .main-trackInfo-name a,
-body[data-ktna-theme="Liquid Glass"] .main-trackInfo-artists a,
-body[data-ktna-theme="Liquid Glass"] .main-trackInfo-name span,
-body[data-ktna-theme="Liquid Glass"] .main-trackInfo-artists span,
-body[data-ktna-theme="Liquid Glass"] [data-testid="context-item-link"],
-body[data-ktna-theme="Liquid Glass"] [data-testid="context-item-info-title"],
-body[data-ktna-theme="Liquid Glass"] [data-testid="context-item-info-artist"] {
+/* 5 ── All text inside glass panels = white with drop shadow */
+body[data-ktna-theme="Liquid Glass"] .Root__main-view,
+body[data-ktna-theme="Liquid Glass"] .Root__nav-bar,
+body[data-ktna-theme="Liquid Glass"] .main-nowPlayingBar-container {
     color: rgba(255, 255, 255, 0.95) !important;
-    -webkit-text-fill-color: rgba(255, 255, 255, 0.95) !important;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
-    opacity: 1 !important;
+}
+body[data-ktna-theme="Liquid Glass"] .Root__main-view *:not(img):not(svg):not(path):not(canvas),
+body[data-ktna-theme="Liquid Glass"] .Root__nav-bar *:not(img):not(svg):not(path):not(canvas),
+body[data-ktna-theme="Liquid Glass"] .main-nowPlayingBar-container *:not(img):not(svg):not(path):not(canvas) {
+    color: rgba(255, 255, 255, 0.92) !important;
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.92) !important;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6) !important;
 }
 
-/* All text inside glass panels gets white + subtle shadow so it reads on the frosted layer */
-body[data-ktna-theme="Liquid Glass"] .Root__main-view *,
-body[data-ktna-theme="Liquid Glass"] .Root__nav-bar *,
-body[data-ktna-theme="Liquid Glass"] .main-nowPlayingBar-container * {
-    --spice-text: rgba(255, 255, 255, 0.95) !important;
-    --spice-subtext: rgba(255, 255, 255, 0.6) !important;
-}
-
-/* 6 ── Blurred album art backdrop that fills the entire Spotify window */
+/* 6 ── Blurred album art backdrop */
 body[data-ktna-theme="Liquid Glass"]::before {
     content: "";
     position: fixed;
-    top: -5%; left: -5%;
-    width: 110vw; height: 110vh;
-    background-image: var(--ktna-bg-image, linear-gradient(135deg, #0284c7, #38bdf8));
+    top: -10%; left: -10%;
+    width: 120vw; height: 120vh;
+    background-image: var(--ktna-bg-image, linear-gradient(135deg, #0f172a 0%, #0284c7 50%, #38bdf8 100%));
     background-size: cover;
     background-position: center;
-    filter: blur(60px) saturate(180%) brightness(0.85);
+    filter: blur(55px) saturate(200%) brightness(0.75);
     z-index: -1;
     pointer-events: none;
 }
+
 
 
