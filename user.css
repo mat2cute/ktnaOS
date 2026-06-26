@@ -1533,3 +1533,42 @@ body[data-ktna-theme="Liquid Glass"]::before {
     z-index: -1;
     pointer-events: none;
 }
+
+/* ── Deep-strip: every inner scroll container in every panel ── */
+body[data-ktna-theme="Liquid Glass"] .Root__right-sidebar > div,
+body[data-ktna-theme="Liquid Glass"] .Root__right-sidebar > div > div,
+body[data-ktna-theme="Liquid Glass"] .Root__right-sidebar aside > div,
+body[data-ktna-theme="Liquid Glass"] .main-nowPlayingView-content,
+body[data-ktna-theme="Liquid Glass"] .main-nowPlayingView-content > div,
+body[data-ktna-theme="Liquid Glass"] .main-nowPlayingView-mainWrapper,
+body[data-ktna-theme="Liquid Glass"] [data-testid="now-playing-view"],
+body[data-ktna-theme="Liquid Glass"] [data-testid="now-playing-view"] > div,
+body[data-ktna-theme="Liquid Glass"] .Root__nav-bar > div,
+body[data-ktna-theme="Liquid Glass"] .Root__nav-bar > div > div,
+body[data-ktna-theme="Liquid Glass"] .main-rootlist-wrapper,
+body[data-ktna-theme="Liquid Glass"] .main-rootlist-rootlist,
+body[data-ktna-theme="Liquid Glass"] .main-rootlist-rootlistItemScrollableContainer,
+body[data-ktna-theme="Liquid Glass"] .main-yourLibraryX-listContainer,
+body[data-ktna-theme="Liquid Glass"] .main-yourLibraryX-collapseButtonWrapper,
+body[data-ktna-theme="Liquid Glass"] .Root__globalNav > div,
+body[data-ktna-theme="Liquid Glass"] .main-topBar-topbarContentWrapper,
+body[data-ktna-theme="Liquid Glass"] .main-topBar-topbarContent,
+body[data-ktna-theme="Liquid Glass"] .main-topBar-historyButtons,
+body[data-ktna-theme="Liquid Glass"] .main-actionBar-ActionBarRow,
+body[data-ktna-theme="Liquid Glass"] .x-shelf-shelf,
+body[data-ktna-theme="Liquid Glass"] .x-shelf-shelfContainer {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* ── Also strip the horizontal band at very top of sidebar ── */
+body[data-ktna-theme="Liquid Glass"] .main-nowPlayingView-coverArtContainer,
+body[data-ktna-theme="Liquid Glass"] .main-nowPlayingView-context,
+body[data-ktna-theme="Liquid Glass"] .main-nowPlayingView-contextPlaylistArt,
+body[data-ktna-theme="Liquid Glass"] [data-testid="CoverSlotCollapsed"],
+body[data-ktna-theme="Liquid Glass"] [data-testid="CoverSlotExpanded"] {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
