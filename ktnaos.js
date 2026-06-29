@@ -1015,11 +1015,11 @@
                             }
                         }
                     },
-                    style: { position: "fixed", top: "36px", right: "80px", background: "transparent", border: "none", color: "var(--spice-text,#fff)", cursor: "pointer", fontSize: "24px", zIndex: 1000000 }
+                    style: { position: "fixed", top: "84px", right: "80px", background: "transparent", border: "none", color: "var(--spice-text,#fff)", cursor: "pointer", fontSize: "24px", zIndex: 1000000 }
                 }, "⛶"),
                 React.createElement("button", {
                     onClick: function() { overlay.style.display = "none"; },
-                    style: { position: "fixed", top: "32px", right: "32px", background: "transparent", border: "none", color: "var(--spice-text,#fff)", cursor: "pointer", fontSize: "32px", zIndex: 1000000 }
+                    style: { position: "fixed", top: "80px", right: "32px", background: "transparent", border: "none", color: "var(--spice-text,#fff)", cursor: "pointer", fontSize: "32px", zIndex: 1000000 }
                 }, "\u00d7"),
                 React.createElement("div", { style: { display: "flex", justifyContent: "center", width: "100%" } },
                     React.createElement("pre", { style: { fontSize: "16px", color: "var(--spice-banner,#f0f)", marginBottom: "32px", lineHeight: "1.2", transition: "all 0.1s ease", whiteSpace: "pre-wrap", wordWrap: "break-word" } }, header)
