@@ -897,38 +897,6 @@
                     self.setState({ headerFrame: 2 });
                 }, 150);
             }, 2500);
-            
-            this.snifferLoop = setInterval(() => {
-                var isPlaying = Spicetify.Player.isPlaying();
-                var vol = Math.round(Spicetify.Player.getVolume() * 100);
-                var progress = Spicetify.Player.getProgress();
-                var track = Spicetify.Player.data ? (Spicetify.Player.data.track || Spicetify.Player.data.item || Spicetify.Player.data) : null;
-                
-                var states = [
-                    "[KTNA_SYS] AUDIO_VOL: " + vol + "%",
-                    "[KTNA_SYS] ALLOC_MEM: 0x" + Math.floor(Math.random() * 9999 + 4000).toString(16).toUpperCase(),
-                    "[KTNA_SYS] ENGINE_STATE: " + (isPlaying ? "ACTIVE" : "STANDBY")
-                ];
-                if (track && track.uri) {
-                    states.push("[KTNA_SYS] ACTIVE_URI: " + track.uri);
-                    states.push("[KTNA_SYS] TRACK_TS: " + Math.floor(progress / 1000) + "s");
-                }
-                
-                var logMsg = states[Math.floor(Math.random() * states.length)];
-                self.appendLog(logMsg, "var(--spice-subtext)");
-                
-                // Inject lyrics if available and synced
-                if (self.state.lyrics && Spicetify.Player.isPlaying()) {
-                    var progress = Spicetify.Player.getProgress();
-                    var activeLine = self.state.lyrics.find(l => progress >= l.time && progress < l.time + 3000);
-                    if (activeLine && activeLine.words && activeLine.words[0] && activeLine.words[0].string) {
-                        var text = activeLine.words[0].string;
-                        if (self.state.logs.length === 0 || self.state.logs[self.state.logs.length - 1].text !== text) {
-                            self.appendLog(text, "var(--spice-button-active)");
-                        }
-                    }
-                }
-            }, 1200);
         }
         componentDidUpdate() {
             if (this.logRef.current) {
@@ -991,26 +959,26 @@
                         autoFocus: true,
                         style: { background: "transparent", border: "none", color: "var(--spice-text)", width: "100%", outline: "none", fontFamily: "monospace", fontSize: "16px" },
                         placeholder: "exe [cmd] (try: exe help, exe skip, exe vol 50)",
-                        onKeyDown: function(e) {
+                        onKeyDown: (e) => {
                             if (e.key === "Enter") {
                                 var val = e.currentTarget.value.trim();
                                 if (val.startsWith("exe ")) {
                                     var cmd = val.substring(4).trim().split(" ");
                                     var action = cmd[0];
-                                    if (action === "skip" || action === "next") Spicetify.Player.next();
-                                    else if (action === "back" || action === "prev") Spicetify.Player.back();
-                                    else if (action === "pause") Spicetify.Player.pause();
-                                    else if (action === "play") Spicetify.Player.play();
-                                    else if (action === "vol" && cmd[1]) Spicetify.Player.setVolume(parseFloat(cmd[1]) / 100);
+                                    if (action === "skip" || action === "next") { Spicetify.Player.next(); this.appendLog("ktnaOS: skipped to next track", "var(--spice-button-active)"); }
+                                    else if (action === "back" || action === "prev") { Spicetify.Player.back(); this.appendLog("ktnaOS: skipped to previous track", "var(--spice-button-active)"); }
+                                    else if (action === "pause") { Spicetify.Player.pause(); this.appendLog("ktnaOS: playback paused", "var(--spice-button-active)"); }
+                                    else if (action === "play") { Spicetify.Player.play(); this.appendLog("ktnaOS: playback resumed", "var(--spice-button-active)"); }
+                                    else if (action === "vol" && cmd[1]) { Spicetify.Player.setVolume(parseFloat(cmd[1]) / 100); this.appendLog("ktnaOS: volume set to " + cmd[1] + "%", "var(--spice-button-active)"); }
                                     else if (action === "usermod" && cmd[1]) {
                                         localStorage.setItem("ktnaos-user", cmd[1]);
-                                        Spicetify.showNotification("ktnaOS: user updated to " + cmd[1]);
+                                        this.appendLog("ktnaOS: user updated to " + cmd[1], "var(--spice-button-active)");
                                     }
                                     else if (action === "screensaver" && cmd[1]) {
                                         var opt = cmd[1].toLowerCase();
                                         if (opt === "on" || opt === "off") {
                                             localStorage.setItem("ktnaos-screensaver-enabled", opt);
-                                            Spicetify.showNotification("ktnaOS: screensaver " + opt);
+                                            this.appendLog("ktnaOS: screensaver " + opt, "var(--spice-button-active)");
                                             window.dispatchEvent(new Event("ktnaos-config-update"));
                                         }
                                     }
@@ -1018,14 +986,16 @@
                                         var secs = parseInt(cmd[1]);
                                         if (!isNaN(secs) && secs > 0) {
                                             localStorage.setItem("ktnaos-screensaver-timeout", secs * 1000);
-                                            Spicetify.showNotification("ktnaOS: timeout set to " + secs + "s");
+                                            this.appendLog("ktnaOS: timeout set to " + secs + "s", "var(--spice-button-active)");
                                             window.dispatchEvent(new Event("ktnaos-config-update"));
                                         }
                                     }
-                                    else if (action === "help") Spicetify.showNotification("ktnaOS cmds:\nexe help\nexe skip/prev\nexe play/pause\nexe vol [0-100]\nexe usermod [name]\nexe screensaver [on|off]\nexe timeout [seconds]", false, 4000);
-                                    else Spicetify.showNotification("ktnaOS: Unknown command");
+                                    else if (action === "help") {
+                                        this.appendLog("ktnaOS cmds: exe help, exe skip/prev, exe play/pause, exe vol [0-100], exe usermod [name], exe screensaver [on|off], exe timeout [seconds]", "var(--spice-button-active)");
+                                    }
+                                    else this.appendLog("ktnaOS: Unknown command '" + action + "'", "var(--spice-error, #e22134)");
                                 } else if (val) {
-                                    Spicetify.showNotification("ktnaOS: Invalid syntax. Use 'exe [cmd]'");
+                                    this.appendLog("ktnaOS: Invalid syntax. Use 'exe [cmd]'", "var(--spice-error, #e22134)");
                                 }
                                 e.currentTarget.value = "";
                             }
