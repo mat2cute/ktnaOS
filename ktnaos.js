@@ -417,7 +417,7 @@
         }
         if (!quiet) Spicetify.showNotification("ktnaOS: Injected " + name);
 
-        if (name === "Anything Theme") {
+        if (name === "Adaptive") {
             var track = Spicetify.Player.data ? (Spicetify.Player.data.track || Spicetify.Player.data.item || Spicetify.Player.data) : null;
             if (track && track.metadata && track.metadata.image_url) {
                 extractAlbumColor(track.metadata.image_url);
@@ -520,7 +520,7 @@
 
     function triggerExtraction() {
         updateAlbumArtBg();
-        if (localStorage.getItem("ktnaos-theme") !== "Anything Theme") return;
+        if (localStorage.getItem("ktnaos-theme") !== "Adaptive") return;
         setTimeout(function() {
             var track = Spicetify.Player.data ? (Spicetify.Player.data.track || Spicetify.Player.data.item || Spicetify.Player.data) : null;
             if (track && track.metadata && track.metadata.image_url) {
@@ -873,7 +873,23 @@
                                     localStorage.setItem("ktnaos-user", cmd[1]);
                                     Spicetify.showNotification("ktnaOS: user updated to " + cmd[1]);
                                 }
-                                else if (action === "help") Spicetify.showNotification("ktnaOS cmds:\nexe help\nexe skip/prev\nexe play/pause\nexe vol [0-100]\nexe usermod [name]", false, 4000);
+                                else if (action === "screensaver" && cmd[1]) {
+                                    var opt = cmd[1].toLowerCase();
+                                    if (opt === "on" || opt === "off") {
+                                        localStorage.setItem("ktnaos-screensaver-enabled", opt);
+                                        Spicetify.showNotification("ktnaOS: screensaver " + opt);
+                                        window.dispatchEvent(new Event("ktnaos-config-update"));
+                                    }
+                                }
+                                else if (action === "timeout" && cmd[1]) {
+                                    var secs = parseInt(cmd[1]);
+                                    if (!isNaN(secs) && secs > 0) {
+                                        localStorage.setItem("ktnaos-screensaver-timeout", secs * 1000);
+                                        Spicetify.showNotification("ktnaOS: timeout set to " + secs + "s");
+                                        window.dispatchEvent(new Event("ktnaos-config-update"));
+                                    }
+                                }
+                                else if (action === "help") Spicetify.showNotification("ktnaOS cmds:\nexe help\nexe skip/prev\nexe play/pause\nexe vol [0-100]\nexe usermod [name]\nexe screensaver [on|off]\nexe timeout [seconds]", false, 4000);
                                 else Spicetify.showNotification("ktnaOS: Unknown command");
                             } else if (val) {
                                 Spicetify.showNotification("ktnaOS: Invalid syntax. Use 'exe [cmd]'");
@@ -925,13 +941,19 @@
         }
         document.body.classList.remove("is-idle");
         clearTimeout(idleTimer);
+        
+        var isEnabled = localStorage.getItem("ktnaos-screensaver-enabled") !== "off";
+        if (!isEnabled) return;
+        
+        var timeoutMs = parseInt(localStorage.getItem("ktnaos-screensaver-timeout")) || 120000;
         idleTimer = setTimeout(() => {
             document.body.classList.add("is-idle");
-        }, 120000);
+        }, timeoutMs);
     }
     document.addEventListener("mousemove", resetIdle);
     document.addEventListener("keydown", resetIdle);
     document.addEventListener("mousedown", resetIdle);
+    window.addEventListener("ktnaos-config-update", resetIdle);
     resetIdle();
 
     Spicetify.SVGIcons["katana-btn"] = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2c0 2-1 3-3 3"/><path d="M8 16l-6 6"/><path d="M6 14l4 4"/></svg>';
