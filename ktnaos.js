@@ -477,6 +477,7 @@
                 var bgB = Math.floor(b * 0.25);
                 var bgHex = "#" + ((1 << 24) + (bgR << 16) + (bgG << 8) + bgB).toString(16).slice(1).padStart(6, '0');
 
+                var root = document.documentElement;
                 var overrides = ["button", "button-active", "tab-active", "notification", "border-active", "banner", "accent", "accent-active", "header"];
                 overrides.forEach(key => {
                     root.style.setProperty("--spice-" + key, hex);
