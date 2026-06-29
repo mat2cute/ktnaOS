@@ -780,6 +780,81 @@
         }
     }
 
+    class TheGridVisualizer extends React.Component {
+        constructor(p) {
+            super(p);
+            this.canvasRef = React.createRef();
+            this.animationId = null;
+        }
+        componentDidMount() {
+            var canvas = this.canvasRef.current;
+            var ctx = canvas.getContext("2d");
+            var width = canvas.width;
+            var height = canvas.height;
+            var cols = 70;
+            var rows = 25;
+            var time = 0;
+            
+            var draw = () => {
+                if (!this.canvasRef.current) return;
+                ctx.clearRect(0, 0, width, height);
+                
+                var isPlaying = Spicetify.Player.isPlaying();
+                var intensity = isPlaying ? 1.0 : 0.05;
+                time += (isPlaying ? 0.08 : 0.01);
+                
+                var primary = getComputedStyle(document.documentElement).getPropertyValue('--spice-button-active').trim() || '#0f0';
+                
+                ctx.strokeStyle = primary;
+                ctx.lineWidth = 1.2;
+                
+                var cellW = width / (cols - 1);
+                var cellH = height / (rows - 1);
+                
+                var progress = Spicetify.Player.getProgress() || 0;
+                var beat = Math.sin(progress / 150) * intensity;
+                var subBeat = Math.cos(progress / 50) * intensity;
+                
+                for(var i=0; i<rows - 1; i++) {
+                    ctx.beginPath();
+                    for(var j=0; j<cols; j++) {
+                        var distCenter = Math.abs(j - cols/2) / (cols/2);
+                        var wave = Math.sin(time + j*0.3 + i*0.4) * 25 * (1 - distCenter) * intensity;
+                        var spike = (Math.random() > 0.85 ? (Math.random() * 45 * beat * (1 - distCenter)) : 0) + (subBeat * 8 * (1 - distCenter));
+                        
+                        var x = j * cellW;
+                        var y = (i * cellH) + wave - spike;
+                        
+                        // 3D Perspective Projection
+                        var perspective = 0.3 + (i / rows) * 0.7;
+                        x = (x - width/2) * perspective + width/2;
+                        y = y * perspective + (height * (1-perspective) * 0.5);
+                        
+                        // Apply extreme depth fading
+                        ctx.globalAlpha = Math.max(0.05, perspective * 1.5 - 0.5);
+                        
+                        if (j === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+                }
+                this.animationId = requestAnimationFrame(draw);
+            };
+            draw();
+        }
+        componentWillUnmount() {
+            if (this.animationId) cancelAnimationFrame(this.animationId);
+        }
+        render() {
+            return React.createElement("canvas", {
+                ref: this.canvasRef,
+                width: 1200,
+                height: 400,
+                style: { width: "100%", height: "400px", filter: "drop-shadow(0 0 12px var(--spice-button-active))", marginBottom: "32px", opacity: 0.9, background: "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.5) 100%)", borderRadius: "12px" }
+            });
+        }
+    }
+
     class KtnaOSDashboard extends React.Component {
         constructor(p) {
             super(p);
@@ -904,11 +979,7 @@
             if (this.state.headerFrame === 1) currentLogo = logoGlitch;
             if (this.state.headerFrame === 2) currentLogo = logoKatana;
 
-            var credits = "\n\n>> SYSTEM_READY\n";
-            var lyricsBlock = this.state.lyrics ? "\n\n>> AUDIO_DATA_STREAM SECURED.\n" : credits;
-            var bootText = "[ktnaOS-kernel] injecting hooks...\n[ktnaOS-kernel] bypassing DRM protection... [OK]\n[ktnaOS-kernel] mounting VFS partitions... [OK]";
-            var finalStatus = ">> SYSTEM_AUTH: BYPASSED\n>> ACCESSING TARGET DATA_GRID...";
-            var header = currentLogo + "\n\n" + (this.state.headerFrame === 2 ? finalStatus : bootText) + lyricsBlock;
+            var header = currentLogo;
 
             var terminalInput = React.createElement("div", { style: { position: "fixed", bottom: "32px", left: "32px", width: "calc(100vw - 64px)", background: "rgba(0,0,0,0.9)", backdropFilter: "blur(8px)", padding: "16px", border: "1px solid var(--spice-button-active)", display: "flex", flexDirection: "column", boxSizing: "border-box", zIndex: 10000 } },
                 React.createElement("div", { ref: this.logRef, style: { height: "120px", overflowY: "hidden", display: "flex", flexDirection: "column", justifyContent: "flex-end", marginBottom: "12px", fontFamily: "monospace", fontSize: "14px", borderBottom: "1px dashed var(--spice-border-active)", paddingBottom: "12px" } },
@@ -969,6 +1040,7 @@
                     style: { position: "fixed", top: "32px", right: "32px", background: "transparent", border: "none", color: "var(--spice-text,#fff)", cursor: "pointer", fontSize: "32px", zIndex: 1000000 }
                 }, "\u00d7"),
                 React.createElement("pre", { style: { fontSize: "16px", color: "var(--spice-banner,#f0f)", marginBottom: "32px", lineHeight: "1.2", transition: "all 0.1s ease", whiteSpace: "pre-wrap", wordWrap: "break-word" } }, header),
+                React.createElement(TheGridVisualizer, null),
                 React.createElement(SystemWidgets, null),
                 terminalInput
             );
