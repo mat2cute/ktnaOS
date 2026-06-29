@@ -791,53 +791,54 @@
             var ctx = canvas.getContext("2d");
             var width = canvas.width;
             var height = canvas.height;
-            var cols = 70;
-            var rows = 25;
             var time = 0;
+            var buffer = new Array(width).fill(height / 2);
             
             var draw = () => {
                 if (!this.canvasRef.current) return;
-                ctx.clearRect(0, 0, width, height);
+                ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+                ctx.fillRect(0, 0, width, height);
                 
                 var isPlaying = Spicetify.Player.isPlaying();
                 var intensity = isPlaying ? 1.0 : 0.05;
-                time += (isPlaying ? 0.08 : 0.01);
+                time += (isPlaying ? 0.1 : 0.02);
                 
                 var primary = getComputedStyle(document.documentElement).getPropertyValue('--spice-button-active').trim() || '#0f0';
                 
                 ctx.strokeStyle = primary;
-                ctx.lineWidth = 1.2;
-                
-                var cellW = width / (cols - 1);
-                var cellH = height / (rows - 1);
+                ctx.lineWidth = 2;
                 
                 var progress = Spicetify.Player.getProgress() || 0;
-                var beat = Math.sin(progress / 150) * intensity;
-                var subBeat = Math.cos(progress / 50) * intensity;
                 
-                for(var i=0; i<rows - 1; i++) {
-                    ctx.beginPath();
-                    for(var j=0; j<cols; j++) {
-                        var distCenter = Math.abs(j - cols/2) / (cols/2);
-                        var wave = Math.sin(time + j*0.3 + i*0.4) * 25 * (1 - distCenter) * intensity;
-                        var spike = (Math.random() > 0.85 ? (Math.random() * 45 * beat * (1 - distCenter)) : 0) + (subBeat * 8 * (1 - distCenter));
-                        
-                        var x = j * cellW;
-                        var y = (i * cellH) + wave - spike;
-                        
-                        // 3D Perspective Projection
-                        var perspective = 0.3 + (i / rows) * 0.7;
-                        x = (x - width/2) * perspective + width/2;
-                        y = y * perspective + (height * (1-perspective) * 0.5);
-                        
-                        // Apply extreme depth fading
-                        ctx.globalAlpha = Math.max(0.05, perspective * 1.5 - 0.5);
-                        
-                        if (j === 0) ctx.moveTo(x, y);
-                        else ctx.lineTo(x, y);
-                    }
-                    ctx.stroke();
+                // Shift buffer left
+                buffer.shift();
+                
+                // Generate new point
+                var newY = height / 2;
+                if (isPlaying) {
+                    var beat = Math.sin(progress / 200) * 50;
+                    var noise = (Math.random() - 0.5) * 40 * intensity;
+                    var glitch = Math.random() > 0.98 ? (Math.random() - 0.5) * 150 : 0;
+                    newY += Math.sin(time) * beat + noise + glitch;
+                } else {
+                    newY += Math.sin(time * 0.5) * 5;
                 }
+                
+                // Keep within bounds
+                newY = Math.max(10, Math.min(height - 10, newY));
+                buffer.push(newY);
+                
+                ctx.beginPath();
+                for(var i = 0; i < width; i++) {
+                    if (i === 0) ctx.moveTo(i, buffer[i]);
+                    else ctx.lineTo(i, buffer[i]);
+                }
+                ctx.stroke();
+                
+                // Draw a retro scanline
+                ctx.fillStyle = "rgba(255, 255, 255, 0.03)";
+                ctx.fillRect(0, (time * 50) % height, width, 5);
+                
                 this.animationId = requestAnimationFrame(draw);
             };
             draw();
@@ -849,8 +850,8 @@
             return React.createElement("canvas", {
                 ref: this.canvasRef,
                 width: 1200,
-                height: 400,
-                style: { width: "100%", height: "400px", filter: "drop-shadow(0 0 12px var(--spice-button-active))", marginBottom: "32px", opacity: 0.9, background: "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.5) 100%)", borderRadius: "12px" }
+                height: 200,
+                style: { width: "100%", height: "200px", filter: "drop-shadow(0 0 8px var(--spice-button-active))", marginBottom: "32px", opacity: 0.9, background: "rgba(0,0,0,0.5)", border: "1px solid var(--spice-border-active)" }
             });
         }
     }
@@ -931,6 +932,14 @@
             if (this.snifferLoop) clearInterval(this.snifferLoop);
         }
         render() {
+            var logoKtna = [
+                "  _    _                 ____   _____ ",
+                " | |  | |               / __ \\ / ____|",
+                " | | _| |_ _ __   __ _ | |  | | (___  ",
+                " | |/ / __| '_ \\ / _` || |  | |\\___ \\ ",
+                " |   <| |_| | | | (_| || |__| |____) |",
+                " |_|\\_\\\\__|_| |_|\\__,_| \\____/|_____/ "
+            ].join("\n");
             var terminalInput = React.createElement("div", { style: { position: "fixed", bottom: "32px", left: "32px", width: "calc(100vw - 64px)", background: "rgba(0,0,0,0.9)", backdropFilter: "blur(8px)", padding: "16px", border: "1px solid var(--spice-button-active)", display: "flex", flexDirection: "column", boxSizing: "border-box", zIndex: 10000 } },
                 React.createElement("div", { ref: this.logRef, style: { height: "120px", overflowY: "hidden", display: "flex", flexDirection: "column", justifyContent: "flex-end", marginBottom: "12px", fontFamily: "monospace", fontSize: "14px", borderBottom: "1px dashed var(--spice-border-active)", paddingBottom: "12px" } },
                     this.state.logs.map((l, i) => React.createElement("div", { key: i, style: { color: l.color, marginTop: "4px", opacity: (i / this.state.logs.length) } }, l.text))
@@ -989,6 +998,7 @@
                     onClick: function() { overlay.style.display = "none"; },
                     style: { position: "fixed", top: "32px", right: "32px", background: "transparent", border: "none", color: "var(--spice-text,#fff)", cursor: "pointer", fontSize: "32px", zIndex: 1000000 }
                 }, "\u00d7"),
+                React.createElement("pre", { style: { fontSize: "16px", color: "var(--spice-banner,#f0f)", marginBottom: "32px", lineHeight: "1.2", whiteSpace: "pre-wrap" } }, logoKtna),
                 React.createElement(TheGridVisualizer, null),
                 React.createElement(SystemWidgets, null),
                 terminalInput
