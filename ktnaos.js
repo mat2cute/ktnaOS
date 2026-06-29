@@ -707,7 +707,7 @@
     class SystemWidgets extends React.Component {
         constructor(p) {
             super(p);
-            this.state = { rx: 0, tx: 0, cpu: 12, mem: 41, uptime: 0 };
+            this.state = { rx: 0, tx: 0, cpu: 12, mem: 41, uptime: 0, artists: [] };
             this.loop = null;
         }
         componentDidMount() {
@@ -721,6 +721,14 @@
                     uptime: self.state.uptime + 1
                 });
             }, 1000);
+            
+            if (Spicetify.CosmosAsync) {
+                Spicetify.CosmosAsync.get("https://api.spotify.com/v1/me/top/artists?limit=3&time_range=short_term").then(function(res) {
+                    if (res && res.items) {
+                        self.setState({ artists: res.items });
+                    }
+                }).catch(function(e) { console.error("ktnaOS top artists error:", e); });
+            }
         }
         componentWillUnmount() {
             if (this.loop) clearInterval(this.loop);
@@ -756,6 +764,17 @@
                     React.createElement("div", { style: valStyle }, isPlaying ? "ACTIVE" : "STANDBY"),
                     React.createElement("div", { style: valStyle }, "VOL: " + vol + "%"),
                     React.createElement("div", { style: { color: "var(--spice-subtext)", marginTop: "8px", fontSize: "12px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, "TARGET: " + (track ? (track.uri || track.link) : "NONE"))
+                ),
+                React.createElement("div", { style: { ...boxStyle, gridColumn: "span 3" } },
+                    React.createElement("div", { style: labelStyle }, "MOST_PLAYED_ARTISTS [SYNCED]"),
+                    React.createElement("div", { style: { display: "flex", gap: "16px", marginTop: "12px" } },
+                        this.state.artists.length > 0 ? this.state.artists.map((a, i) => 
+                            React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: "12px", flex: 1, background: "rgba(255,255,255,0.05)", padding: "8px", borderRadius: "4px" } },
+                                React.createElement("img", { src: a.images && a.images[0] ? a.images[0].url : "", style: { width: "40px", height: "40px", borderRadius: "50%", filter: "grayscale(100%) opacity(0.8)" } }),
+                                React.createElement("div", { style: { color: "var(--spice-text)", fontSize: "14px", fontWeight: "bold", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, a.name)
+                            )
+                        ) : React.createElement("div", { style: { color: "var(--spice-subtext)", fontSize: "12px" } }, "AWAITING_API_RESPONSE...")
+                    )
                 )
             );
         }
