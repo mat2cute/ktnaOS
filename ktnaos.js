@@ -1041,7 +1041,6 @@
                 }, "\u00d7"),
                 React.createElement("pre", { style: { fontSize: "16px", color: "var(--spice-banner,#f0f)", marginBottom: "32px", lineHeight: "1.2", transition: "all 0.1s ease", whiteSpace: "pre-wrap", wordWrap: "break-word" } }, header),
                 React.createElement(TheGridVisualizer, null),
-                React.createElement(SystemWidgets, null),
                 terminalInput
             );
         }
