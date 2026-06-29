@@ -780,82 +780,6 @@
         }
     }
 
-    class TheGridVisualizer extends React.Component {
-        constructor(p) {
-            super(p);
-            this.canvasRef = React.createRef();
-            this.animationId = null;
-        }
-        componentDidMount() {
-            var canvas = this.canvasRef.current;
-            var ctx = canvas.getContext("2d");
-            var width = canvas.width;
-            var height = canvas.height;
-            var time = 0;
-            var buffer = new Array(width).fill(height / 2);
-            
-            var draw = () => {
-                if (!this.canvasRef.current) return;
-                ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
-                ctx.fillRect(0, 0, width, height);
-                
-                var isPlaying = Spicetify.Player.isPlaying();
-                var intensity = isPlaying ? 1.0 : 0.05;
-                time += (isPlaying ? 0.1 : 0.02);
-                
-                var primary = getComputedStyle(document.documentElement).getPropertyValue('--spice-button-active').trim() || '#0f0';
-                
-                ctx.strokeStyle = primary;
-                ctx.lineWidth = 2;
-                
-                var progress = Spicetify.Player.getProgress() || 0;
-                
-                // Shift buffer left
-                buffer.shift();
-                
-                // Generate new point
-                var newY = height / 2;
-                if (isPlaying) {
-                    var beat = Math.sin(progress / 200) * 50;
-                    var noise = (Math.random() - 0.5) * 40 * intensity;
-                    var glitch = Math.random() > 0.98 ? (Math.random() - 0.5) * 150 : 0;
-                    newY += Math.sin(time) * beat + noise + glitch;
-                } else {
-                    newY += Math.sin(time * 0.5) * 5;
-                }
-                
-                // Keep within bounds
-                newY = Math.max(10, Math.min(height - 10, newY));
-                buffer.push(newY);
-                
-                ctx.beginPath();
-                for(var i = 0; i < width; i++) {
-                    if (i === 0) ctx.moveTo(i, buffer[i]);
-                    else ctx.lineTo(i, buffer[i]);
-                }
-                ctx.stroke();
-                
-                // Draw a retro scanline
-                ctx.fillStyle = "rgba(255, 255, 255, 0.03)";
-                ctx.fillRect(0, (time * 50) % height, width, 5);
-                
-                this.animationId = requestAnimationFrame(draw);
-            };
-            draw();
-        }
-        componentWillUnmount() {
-            if (this.animationId) cancelAnimationFrame(this.animationId);
-        }
-        render() {
-            return React.createElement("canvas", {
-                ref: this.canvasRef,
-                width: 1200,
-                height: 200,
-                style: { width: "100%", height: "200px", filter: "drop-shadow(0 0 8px var(--spice-button-active))", marginBottom: "32px", opacity: 0.9, background: "rgba(0,0,0,0.5)", border: "1px solid var(--spice-border-active)" }
-            });
-        }
-    }
-
     class KtnaOSDashboard extends React.Component {
         constructor(p) {
             super(p);
@@ -900,13 +824,22 @@
             }, 2500);
             
             this.snifferLoop = setInterval(() => {
-                var ips = ["104.154.127.34", "199.232.4.133", "142.250.190.46", "35.190.247.0"];
-                var ports = [443, 80, 8080, 53];
-                var methods = ["GET", "POST", "PUT", "TLSv1.3", "HANDSHAKE"];
-                var rIp = ips[Math.floor(Math.random() * ips.length)];
-                var rPort = ports[Math.floor(Math.random() * ports.length)];
-                var rMeth = methods[Math.floor(Math.random() * methods.length)];
-                var logMsg = "[NET_SNIFFER] " + rMeth + " -> " + rIp + ":" + rPort + " [INTERCEPTED]";
+                var isPlaying = Spicetify.Player.isPlaying();
+                var vol = Math.round(Spicetify.Player.getVolume() * 100);
+                var progress = Spicetify.Player.getProgress();
+                var track = Spicetify.Player.data ? (Spicetify.Player.data.track || Spicetify.Player.data.item || Spicetify.Player.data) : null;
+                
+                var states = [
+                    "[KTNA_SYS] AUDIO_VOL: " + vol + "%",
+                    "[KTNA_SYS] ALLOC_MEM: 0x" + Math.floor(Math.random() * 9999 + 4000).toString(16).toUpperCase(),
+                    "[KTNA_SYS] ENGINE_STATE: " + (isPlaying ? "ACTIVE" : "STANDBY")
+                ];
+                if (track && track.uri) {
+                    states.push("[KTNA_SYS] ACTIVE_URI: " + track.uri);
+                    states.push("[KTNA_SYS] TRACK_TS: " + Math.floor(progress / 1000) + "s");
+                }
+                
+                var logMsg = states[Math.floor(Math.random() * states.length)];
                 self.appendLog(logMsg, "var(--spice-subtext)");
                 
                 // Inject lyrics if available and synced
@@ -940,6 +873,43 @@
                 " |   <| |_| | | | (_| || |__| |____) |",
                 " |_|\\_\\\\__|_| |_|\\__,_| \\____/|_____/ "
             ].join("\n");
+            
+            var logoGlitch = [
+                "  X    /                 ____   X____ ",
+                " | \\  | \\               / __ \\ / X___|",
+                " / / _| /_ / __   __ / | |  | | (___  ",
+                " | \\/ / __| '_ \\ / X` || X  | |\\___ \\ ",
+                " /   <\\ |_/ / | | (_/ || /__| X____) |",
+                " \\_|\\_\\\\__\\_| /_|\\__,_| \\____/|_____/ "
+            ].join("\n");
+            var logoKatana = [
+                "⣾⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+                "⢸⡈⠻⢤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+                "⠀⢹⡀⠈⠙⡲⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+                "⠀⠀⠙⢦⣄⠀⠈⠏⡳⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+                "⠀⠀⠀⠀⠈⠑⢤⢀⠀⠁⠋⠗⣦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+                "⠀⠀⠀⠀⠀⠀⠀⠁⠢⡂⢔⠠⢀⠁⠋⠗⣲⣄⠀⣠⣠⣼⠶⣦⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+                "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠌⣔⣉⣐⣠⢀⡈⣾⡿⠉⡀⣠⣴⡾⢿⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+                "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠓⠛⣾⠗⣿⣷⣶⣿⣿⣿⣷⣦⣶⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+                "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⡇⠉⢿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣆⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+                "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢿⣴⡿⠟⠛⠻⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣶⣦⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+                "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠲⣾⣟⠛⠋⠛⠻⢿⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣷⣶⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+                "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣟⣿⣿⢿⣶⣤⣄⡀⠀⠀⠀⠀",
+                "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠛⠻⢿⣿⣿⣿⣿⣿⣿⣿⣟⣿⣿⣿⣿⣖⣦⡀",
+                "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠛⠿⢿⣿⣿⣿⣿⣟⣿⣿⣿⣿⠃",
+                "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠻⠿⣿⣿⣿⡟⠁⠀"
+            ].join("\n");
+
+            var currentLogo = logoKtna;
+            if (this.state.headerFrame === 1) currentLogo = logoGlitch;
+            if (this.state.headerFrame === 2) currentLogo = logoKatana;
+
+            var credits = "\n\n>> SYSTEM_READY\n";
+            var lyricsBlock = this.state.lyrics ? "\n\n>> AUDIO_DATA_STREAM SECURED.\n" : credits;
+            var bootText = "[ktnaOS-kernel] injecting hooks...\n[ktnaOS-kernel] bypassing DRM protection... [OK]\n[ktnaOS-kernel] mounting VFS partitions... [OK]";
+            var finalStatus = ">> SYSTEM_AUTH: BYPASSED\n>> ACCESSING TARGET DATA_GRID...";
+            var header = currentLogo + "\n\n" + (this.state.headerFrame === 2 ? finalStatus : bootText) + lyricsBlock;
+
             var terminalInput = React.createElement("div", { style: { position: "fixed", bottom: "32px", left: "32px", width: "calc(100vw - 64px)", background: "rgba(0,0,0,0.9)", backdropFilter: "blur(8px)", padding: "16px", border: "1px solid var(--spice-button-active)", display: "flex", flexDirection: "column", boxSizing: "border-box", zIndex: 10000 } },
                 React.createElement("div", { ref: this.logRef, style: { height: "120px", overflowY: "hidden", display: "flex", flexDirection: "column", justifyContent: "flex-end", marginBottom: "12px", fontFamily: "monospace", fontSize: "14px", borderBottom: "1px dashed var(--spice-border-active)", paddingBottom: "12px" } },
                     this.state.logs.map((l, i) => React.createElement("div", { key: i, style: { color: l.color, marginTop: "4px", opacity: (i / this.state.logs.length) } }, l.text))
@@ -998,8 +968,7 @@
                     onClick: function() { overlay.style.display = "none"; },
                     style: { position: "fixed", top: "32px", right: "32px", background: "transparent", border: "none", color: "var(--spice-text,#fff)", cursor: "pointer", fontSize: "32px", zIndex: 1000000 }
                 }, "\u00d7"),
-                React.createElement("pre", { style: { fontSize: "16px", color: "var(--spice-banner,#f0f)", marginBottom: "32px", lineHeight: "1.2", whiteSpace: "pre-wrap" } }, logoKtna),
-                React.createElement(TheGridVisualizer, null),
+                React.createElement("pre", { style: { fontSize: "16px", color: "var(--spice-banner,#f0f)", marginBottom: "32px", lineHeight: "1.2", transition: "all 0.1s ease", whiteSpace: "pre-wrap", wordWrap: "break-word" } }, header),
                 React.createElement(SystemWidgets, null),
                 terminalInput
             );
