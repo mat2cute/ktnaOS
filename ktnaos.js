@@ -722,12 +722,12 @@
                 });
             }, 1000);
             
-            if (Spicetify.CosmosAsync) {
-                Spicetify.CosmosAsync.get("https://api.spotify.com/v1/me/top/artists?limit=3&time_range=short_term").then(function(res) {
-                    if (res && res.items) {
-                        self.setState({ artists: res.items });
-                    }
-                }).catch(function(e) { console.error("ktnaOS top artists error:", e); });
+            if (Spicetify.Platform && Spicetify.Platform.RootlistAPI) {
+                Spicetify.Platform.RootlistAPI.getContents().then(function(res) {
+                    var items = res.items || res;
+                    var lists = items.filter(i => i.type === "playlist" && i.images && i.images.length > 0).slice(0, 3);
+                    self.setState({ artists: lists });
+                }).catch(function(e) { console.error("ktnaOS widget error:", e); });
             }
         }
         componentWillUnmount() {
@@ -766,14 +766,14 @@
                     React.createElement("div", { style: { color: "var(--spice-subtext)", marginTop: "8px", fontSize: "12px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, "TARGET: " + (track ? (track.uri || track.link) : "NONE"))
                 ),
                 React.createElement("div", { style: { ...boxStyle, gridColumn: "span 3" } },
-                    React.createElement("div", { style: labelStyle }, "MOST_PLAYED_ARTISTS [SYNCED]"),
+                    React.createElement("div", { style: labelStyle }, "LOCAL_LIBRARY_CACHE [INSTANT]"),
                     React.createElement("div", { style: { display: "flex", gap: "16px", marginTop: "12px" } },
                         this.state.artists.length > 0 ? this.state.artists.map((a, i) => 
                             React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: "12px", flex: 1, background: "rgba(255,255,255,0.05)", padding: "8px", borderRadius: "4px" } },
-                                React.createElement("img", { src: a.images && a.images[0] ? a.images[0].url : "", style: { width: "40px", height: "40px", borderRadius: "50%", filter: "grayscale(100%) opacity(0.8)" } }),
+                                React.createElement("img", { src: a.images && a.images[0] ? a.images[0].url : "", style: { width: "40px", height: "40px", borderRadius: "4px", filter: "grayscale(100%) opacity(0.8)" } }),
                                 React.createElement("div", { style: { color: "var(--spice-text)", fontSize: "14px", fontWeight: "bold", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, a.name)
                             )
-                        ) : React.createElement("div", { style: { color: "var(--spice-subtext)", fontSize: "12px" } }, "AWAITING_API_RESPONSE...")
+                        ) : React.createElement("div", { style: { color: "var(--spice-subtext)", fontSize: "12px" } }, "READING_DISK...")
                     )
                 )
             );
@@ -783,8 +783,17 @@
     class KtnaOSDashboard extends React.Component {
         constructor(p) {
             super(p);
-            this.state = { items: [], headerFrame: 0, lyrics: null };
+            this.state = { items: [], headerFrame: 0, lyrics: null, logs: [] };
             this.fetchLyrics = this.fetchLyrics.bind(this);
+            this.snifferLoop = null;
+            this.logRef = React.createRef();
+        }
+        appendLog(msg, color) {
+            this.setState(prev => {
+                var newLogs = [...prev.logs, { text: msg, color: color || "var(--spice-text)" }];
+                if (newLogs.length > 15) newLogs = newLogs.slice(newLogs.length - 15);
+                return { logs: newLogs };
+            });
         }
         fetchLyrics() {
             var self = this;
@@ -792,8 +801,7 @@
             if (track && track.uri && Spicetify.CosmosAsync) {
                 Spicetify.CosmosAsync.get("wg://lyrics/v1/track/" + track.uri).then(function(res) {
                     if (res && res.lines) {
-                        var text = res.lines.map(function(l) { return l.words[0] ? l.words[0].string || l.words : l.words; }).join("\n");
-                        self.setState({ lyrics: text });
+                        self.setState({ lyrics: res.lines });
                     } else {
                         self.setState({ lyrics: null });
                     }
@@ -806,13 +814,6 @@
         }
         componentDidMount() {
             var self = this;
-            if (Spicetify.Platform && Spicetify.Platform.RootlistAPI) {
-                Spicetify.Platform.RootlistAPI.getContents().then(function(rootlist) {
-                    var items = rootlist.items || rootlist;
-                    self.setState({ items: items.filter(function(i) { return i.type === "playlist"; }).slice(0, 30) });
-                }).catch(function(e) { console.error("ktnaOS:", e); });
-            }
-            
             Spicetify.Player.addEventListener("songchange", this.fetchLyrics);
             this.fetchLyrics();
             setTimeout(function() {
@@ -821,9 +822,38 @@
                     self.setState({ headerFrame: 2 });
                 }, 150);
             }, 2500);
+            
+            this.snifferLoop = setInterval(() => {
+                var ips = ["104.154.127.34", "199.232.4.133", "142.250.190.46", "35.190.247.0"];
+                var ports = [443, 80, 8080, 53];
+                var methods = ["GET", "POST", "PUT", "TLSv1.3", "HANDSHAKE"];
+                var rIp = ips[Math.floor(Math.random() * ips.length)];
+                var rPort = ports[Math.floor(Math.random() * ports.length)];
+                var rMeth = methods[Math.floor(Math.random() * methods.length)];
+                var logMsg = "[NET_SNIFFER] " + rMeth + " -> " + rIp + ":" + rPort + " [INTERCEPTED]";
+                self.appendLog(logMsg, "var(--spice-subtext)");
+                
+                // Inject lyrics if available and synced
+                if (self.state.lyrics && Spicetify.Player.isPlaying()) {
+                    var progress = Spicetify.Player.getProgress();
+                    var activeLine = self.state.lyrics.find(l => progress >= l.time && progress < l.time + 3000);
+                    if (activeLine && activeLine.words && activeLine.words[0] && activeLine.words[0].string) {
+                        var text = activeLine.words[0].string;
+                        if (self.state.logs.length === 0 || self.state.logs[self.state.logs.length - 1].text !== text) {
+                            self.appendLog(text, "var(--spice-button-active)");
+                        }
+                    }
+                }
+            }, 1200);
+        }
+        componentDidUpdate() {
+            if (this.logRef.current) {
+                this.logRef.current.scrollTop = this.logRef.current.scrollHeight;
+            }
         }
         componentWillUnmount() {
             Spicetify.Player.removeEventListener("songchange", this.fetchLyrics);
+            if (this.snifferLoop) clearInterval(this.snifferLoop);
         }
         render() {
             var logoKtna = [
@@ -866,60 +896,65 @@
             if (this.state.headerFrame === 2) currentLogo = logoKatana;
 
             var credits = "\n\n>> SYSTEM_READY\n";
-            var lyricsBlock = this.state.lyrics ? "\n\n>> INTERCEPTING AUDIO_DATA_STREAM...\n\n" + this.state.lyrics : credits;
+            var lyricsBlock = this.state.lyrics ? "\n\n>> AUDIO_DATA_STREAM SECURED.\n" : credits;
             var bootText = "[ktnaOS-kernel] injecting hooks...\n[ktnaOS-kernel] bypassing DRM protection... [OK]\n[ktnaOS-kernel] mounting VFS partitions... [OK]";
             var finalStatus = ">> SYSTEM_AUTH: BYPASSED\n>> ACCESSING TARGET DATA_GRID...";
             var header = currentLogo + "\n\n" + (this.state.headerFrame === 2 ? finalStatus : bootText) + lyricsBlock;
 
-            var terminalInput = React.createElement("div", { style: { position: "fixed", bottom: "32px", left: "32px", width: "calc(100vw - 64px)", background: "rgba(0,0,0,0.8)", backdropFilter: "blur(4px)", padding: "16px", border: "1px solid var(--spice-button-active)", display: "flex", alignItems: "center", boxSizing: "border-box" } },
-                React.createElement("span", { style: { color: "var(--spice-button-active)", marginRight: "12px", fontWeight: "bold", fontSize: "16px" } }, "ktnaOS>"),
-                React.createElement("input", {
-                    autoFocus: true,
-                    style: { background: "transparent", border: "none", color: "var(--spice-text)", width: "100%", outline: "none", fontFamily: "monospace", fontSize: "16px" },
-                    placeholder: "exe [cmd] (try: exe help, exe skip, exe vol 50, exe usermod name)",
-                    onKeyDown: function(e) {
-                        if (e.key === "Enter") {
-                            var val = e.currentTarget.value.trim();
-                            if (val.startsWith("exe ")) {
-                                var cmd = val.substring(4).trim().split(" ");
-                                var action = cmd[0];
-                                if (action === "skip" || action === "next") Spicetify.Player.next();
-                                else if (action === "back" || action === "prev") Spicetify.Player.back();
-                                else if (action === "pause") Spicetify.Player.pause();
-                                else if (action === "play") Spicetify.Player.play();
-                                else if (action === "vol" && cmd[1]) Spicetify.Player.setVolume(parseFloat(cmd[1]) / 100);
-                                else if (action === "usermod" && cmd[1]) {
-                                    localStorage.setItem("ktnaos-user", cmd[1]);
-                                    Spicetify.showNotification("ktnaOS: user updated to " + cmd[1]);
-                                }
-                                else if (action === "screensaver" && cmd[1]) {
-                                    var opt = cmd[1].toLowerCase();
-                                    if (opt === "on" || opt === "off") {
-                                        localStorage.setItem("ktnaos-screensaver-enabled", opt);
-                                        Spicetify.showNotification("ktnaOS: screensaver " + opt);
-                                        window.dispatchEvent(new Event("ktnaos-config-update"));
+            var terminalInput = React.createElement("div", { style: { position: "fixed", bottom: "32px", left: "32px", width: "calc(100vw - 64px)", background: "rgba(0,0,0,0.9)", backdropFilter: "blur(8px)", padding: "16px", border: "1px solid var(--spice-button-active)", display: "flex", flexDirection: "column", boxSizing: "border-box", zIndex: 10000 } },
+                React.createElement("div", { ref: this.logRef, style: { height: "120px", overflowY: "hidden", display: "flex", flexDirection: "column", justifyContent: "flex-end", marginBottom: "12px", fontFamily: "monospace", fontSize: "14px", borderBottom: "1px dashed var(--spice-border-active)", paddingBottom: "12px" } },
+                    this.state.logs.map((l, i) => React.createElement("div", { key: i, style: { color: l.color, marginTop: "4px", opacity: (i / this.state.logs.length) } }, l.text))
+                ),
+                React.createElement("div", { style: { display: "flex", alignItems: "center" } },
+                    React.createElement("span", { style: { color: "var(--spice-button-active)", marginRight: "12px", fontWeight: "bold", fontSize: "16px", fontFamily: "monospace" } }, "ktnaOS>"),
+                    React.createElement("input", {
+                        autoFocus: true,
+                        style: { background: "transparent", border: "none", color: "var(--spice-text)", width: "100%", outline: "none", fontFamily: "monospace", fontSize: "16px" },
+                        placeholder: "exe [cmd] (try: exe help, exe skip, exe vol 50)",
+                        onKeyDown: function(e) {
+                            if (e.key === "Enter") {
+                                var val = e.currentTarget.value.trim();
+                                if (val.startsWith("exe ")) {
+                                    var cmd = val.substring(4).trim().split(" ");
+                                    var action = cmd[0];
+                                    if (action === "skip" || action === "next") Spicetify.Player.next();
+                                    else if (action === "back" || action === "prev") Spicetify.Player.back();
+                                    else if (action === "pause") Spicetify.Player.pause();
+                                    else if (action === "play") Spicetify.Player.play();
+                                    else if (action === "vol" && cmd[1]) Spicetify.Player.setVolume(parseFloat(cmd[1]) / 100);
+                                    else if (action === "usermod" && cmd[1]) {
+                                        localStorage.setItem("ktnaos-user", cmd[1]);
+                                        Spicetify.showNotification("ktnaOS: user updated to " + cmd[1]);
                                     }
-                                }
-                                else if (action === "timeout" && cmd[1]) {
-                                    var secs = parseInt(cmd[1]);
-                                    if (!isNaN(secs) && secs > 0) {
-                                        localStorage.setItem("ktnaos-screensaver-timeout", secs * 1000);
-                                        Spicetify.showNotification("ktnaOS: timeout set to " + secs + "s");
-                                        window.dispatchEvent(new Event("ktnaos-config-update"));
+                                    else if (action === "screensaver" && cmd[1]) {
+                                        var opt = cmd[1].toLowerCase();
+                                        if (opt === "on" || opt === "off") {
+                                            localStorage.setItem("ktnaos-screensaver-enabled", opt);
+                                            Spicetify.showNotification("ktnaOS: screensaver " + opt);
+                                            window.dispatchEvent(new Event("ktnaos-config-update"));
+                                        }
                                     }
+                                    else if (action === "timeout" && cmd[1]) {
+                                        var secs = parseInt(cmd[1]);
+                                        if (!isNaN(secs) && secs > 0) {
+                                            localStorage.setItem("ktnaos-screensaver-timeout", secs * 1000);
+                                            Spicetify.showNotification("ktnaOS: timeout set to " + secs + "s");
+                                            window.dispatchEvent(new Event("ktnaos-config-update"));
+                                        }
+                                    }
+                                    else if (action === "help") Spicetify.showNotification("ktnaOS cmds:\nexe help\nexe skip/prev\nexe play/pause\nexe vol [0-100]\nexe usermod [name]\nexe screensaver [on|off]\nexe timeout [seconds]", false, 4000);
+                                    else Spicetify.showNotification("ktnaOS: Unknown command");
+                                } else if (val) {
+                                    Spicetify.showNotification("ktnaOS: Invalid syntax. Use 'exe [cmd]'");
                                 }
-                                else if (action === "help") Spicetify.showNotification("ktnaOS cmds:\nexe help\nexe skip/prev\nexe play/pause\nexe vol [0-100]\nexe usermod [name]\nexe screensaver [on|off]\nexe timeout [seconds]", false, 4000);
-                                else Spicetify.showNotification("ktnaOS: Unknown command");
-                            } else if (val) {
-                                Spicetify.showNotification("ktnaOS: Invalid syntax. Use 'exe [cmd]'");
+                                e.currentTarget.value = "";
                             }
-                            e.currentTarget.value = "";
                         }
-                    }
-                })
+                    })
+                )
             );
 
-            return React.createElement("div", { style: { fontFamily: "var(--font-family,monospace)", color: "var(--spice-text,#fff)", paddingBottom: "100px" } },
+            return React.createElement("div", { style: { fontFamily: "var(--font-family,monospace)", color: "var(--spice-text,#fff)", paddingBottom: "200px" } },
                 React.createElement("button", {
                     onClick: function() { overlay.style.display = "none"; },
                     style: { position: "fixed", top: "32px", right: "32px", background: "transparent", border: "none", color: "var(--spice-text,#fff)", cursor: "pointer", fontSize: "32px", zIndex: 1000000 }
