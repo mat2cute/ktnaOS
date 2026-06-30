@@ -247,6 +247,16 @@
             header: "#85d03a", highlight: "#0a0a0a", banner: "#9c27b0",
             accent: "#9c27b0", "accent-active": "#e040fb", "accent-inactive": "#1a1a1a"
         },
+        "Sora": {
+            main: "#101010", sidebar: "#101010", player: "#101010",
+            text: "#fdfdfd", subtext: "#9e9e9e", button: "#e82525",
+            "button-active": "#ff3b3b", "button-disabled": "#333333",
+            "tab-active": "#ff3b3b", notification: "#e82525",
+            "notification-error": "#9c1414", misc: "#1a1a1a",
+            "border-active": "#e82525", "border-inactive": "#303030",
+            header: "#ffffff", highlight: "#1a1a1a", banner: "#e82525",
+            accent: "#e82525", "accent-active": "#ff3b3b", "accent-inactive": "#262626"
+        },
         "Adaptive": {
             main: "#010108", sidebar: "#010108", player: "#010108",
             text: "#ffffff", subtext: "#888888", button: "#ffffff",
@@ -943,9 +953,33 @@
                 "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠻⠿⣿⣿⣿⡟⠁⠀"
             ].join("\n");
 
+            var logoSora = [
+                "                      .                   ",
+                "                     /|        ,          ",
+                "           _...---. / |      /###\\        ",
+                "         ,##########\\ \\   /#######\\       ",
+                "        /#############\\ \\ /#########|     ",
+                "       |###############| |##########|     ",
+                "       |#######/  \\####| |##########|     ",
+                "        \\####/  O  \\###| /##########|     ",
+                "         \\|/   --   |#/ /##########/      ",
+                "          \\         |/ /##########/       ",
+                "           \\   ___  / /##########/        ",
+                "            \\  \\_/ / /##########/         ",
+                "             \\    / /##########/          ",
+                "             |   | /##########/           ",
+                "             |   |/##########/            "
+            ].join("\n");
+
+            var currentTheme = localStorage.getItem("ktnaos-theme");
             var currentLogo = logoKtna;
-            if (this.state.headerFrame === 1) currentLogo = logoGlitch;
-            if (this.state.headerFrame === 2) currentLogo = logoKatana;
+            
+            if (currentTheme === "Sora") {
+                currentLogo = logoSora;
+            } else {
+                if (this.state.headerFrame === 1) currentLogo = logoGlitch;
+                if (this.state.headerFrame === 2) currentLogo = logoKatana;
+            }
 
             var header = currentLogo;
 
