@@ -953,7 +953,7 @@
                 "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠻⠿⣿⣿⣿⡟⠁⠀"
             ].join("\n");
 
-            var logoSora = atob("ICAgX19fX18gX19fXyAgX19fXyAgICAgIF8gICAgCiAgLyBfX18vLyBfXyBcfCAgXyBcICAgIC8gXCAgIAogIFxfX18gXCB8ICB8IHwgfF8pIHwgIC8gXyBcICAKICAgX19fKSB8IHxffCB8ICBfIDwgIC8gX19fIFwgICAqCiAgfF9fX18vIFxfX18vfF98IFxfXC9fLyAgIFxfXCAvfFwKICAgIHwgICAgICB8ICAgICAgfCAgICAgfCAgIHwgIFx8CiAgICA7ICAgICAgLiAgICAgIHwgICAgIC4gICA7IAogICAgJyAgICAgICAgICAgICAnICAgICAgICAgJyA=");
+            var logoSora = atob("ICAgX19fX18gX19fXyAgX19fXyAgICAgIF8gICAgCiAgLyBfX18vLyBfXyBcXHwgIF8gXFwgICAgLyBcXCAgIAogIFxcX19fIFxcIHwgIHwgfCB8XykgfCAgLyBfIFxcICAKICAgX19fKSB8IHxffCB8ICBfIDwgIC8gX19fIFxcIAogIHxfX19fLyBcXF9fXy98X3wgXFxfXFwvXy8gICBcXF9cXA==");
 
             var currentTheme = localStorage.getItem("ktnaos-theme");
             var currentLogo = logoKtna;
