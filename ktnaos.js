@@ -248,14 +248,14 @@
             accent: "#9c27b0", "accent-active": "#e040fb", "accent-inactive": "#1a1a1a"
         },
         "Sora": {
-            main: "#101010", sidebar: "#101010", player: "#101010",
-            text: "#fdfdfd", subtext: "#9e9e9e", button: "#e82525",
-            "button-active": "#ff3b3b", "button-disabled": "#333333",
-            "tab-active": "#ff3b3b", notification: "#e82525",
-            "notification-error": "#9c1414", misc: "#1a1a1a",
-            "border-active": "#e82525", "border-inactive": "#303030",
-            header: "#ffffff", highlight: "#1a1a1a", banner: "#e82525",
-            accent: "#e82525", "accent-active": "#ff3b3b", "accent-inactive": "#262626"
+            main: "#282a2e", sidebar: "#1f2124", player: "#151618",
+            text: "#e6e8eb", subtext: "#8c929d", button: "#ff4100",
+            "button-active": "#ff6229", "button-disabled": "#36393f",
+            "tab-active": "#ff6229", notification: "#ff4100",
+            "notification-error": "#cc0000", misc: "#1f2124",
+            "border-active": "#ff4100", "border-inactive": "#40444b",
+            header: "#ffffff", highlight: "#36393f", banner: "#ff4100",
+            accent: "#ff4100", "accent-active": "#ff6229", "accent-inactive": "#36393f"
         },
         "Adaptive": {
             main: "#010108", sidebar: "#010108", player: "#010108",
