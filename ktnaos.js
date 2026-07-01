@@ -953,23 +953,7 @@
                 "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠻⠿⣿⣿⣿⡟⠁⠀"
             ].join("\n");
 
-            var logoSora = [
-                "                      .                   ",
-                "                     /|        ,          ",
-                "           _...---. / |      /###\\        ",
-                "         ,##########\\ \\   /#######\\       ",
-                "        /#############\\ \\ /#########|     ",
-                "       |###############| |##########|     ",
-                "       |#######/  \\####| |##########|     ",
-                "        \\####/  O  \\###| /##########|     ",
-                "         \\|/   --   |#/ /##########/      ",
-                "          \\         |/ /##########/       ",
-                "           \\   ___  / /##########/        ",
-                "            \\  \\_/ / /##########/         ",
-                "             \\    / /##########/          ",
-                "             |   | /##########/           ",
-                "             |   |/##########/            "
-            ].join("\n");
+            var logoSora = atob("ICAgICAgICAgICAgICAgICAgICAgIC4gICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgIC98ICAgICAgICAsICAgICAgICAgIAogICAgICAgICAgIF8uLi4tLS0uIC8gfCAgICAgIC8jIyNcXCAgICAgICAgCiAgICAgICAgICwjIyMjIyMjIyMjXFwgXFwgICAvIyMjIyMjI1xcICAgICAgIAogICAgICAgIC8jIyMjIyMjIyMjIyMjXFwgXFwgLyMjIyMjIyMjI3wgICAgIAogICAgICAgfCMjIyMjIyMjIyMjIyMjI3wgfCMjIyMjIyMjIyN8ICAgICAKICAgICAgIHwjIyMjIyMjLyAgXFwjIyMjfCB8IyMjIyMjIyMjI3wgICAgIAogICAgICAgIFxcIyMjIy8gIE8gIFxcIyMjfCAvIyMjIyMjIyMjI3wgICAgIAogICAgICAgICBcXHwvICAgLS0gICB8Iy8gLyMjIyMjIyMjIyMvICAgICAgCiAgICAgICAgICBcXCAgICAgICAgIHwvIC8jIyMjIyMjIyMjLyAgICAgICAKICAgICAgICAgICBcXCAgIF9fXyAgLyAvIyMjIyMjIyMjIy8gICAgICAgIAogICAgICAgICAgICBcXCAgXFxfLyAvIC8jIyMjIyMjIyMjLyAgICAgICAgIAogICAgICAgICAgICAgXFwgICAgLyAvIyMjIyMjIyMjIy8gICAgICAgICAgCiAgICAgICAgICAgICB8ICAgfCAvIyMjIyMjIyMjIy8gICAgICAgICAgIAogICAgICAgICAgICAgfCAgIHwvIyMjIyMjIyMjIy8gICAgICAgICAgICA=");
 
             var currentTheme = localStorage.getItem("ktnaos-theme");
             var currentLogo = logoKtna;
