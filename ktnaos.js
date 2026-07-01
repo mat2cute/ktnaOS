@@ -953,7 +953,7 @@
                 "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠻⠿⣿⣿⣿⡟⠁⠀"
             ].join("\n");
 
-            var logoSora = atob("CiAgIF9fX1/NnM2IzLzNiMyXX8yqzJ7NhyBfzJfMmcymzY5fzKDMoM2UX82UzJ5fzZrMpcylzKzMoCAgX8y5zZPMrV9fX8yezZrNkyAgICAgIF/MoCAgICAKICAvzZ3NiCBfzKZfzZVfzJkvzY3Mny/Nicy5zZTMvM2HIF/Nnc2fzKrMpcyrX82OzKvNnM2JIFzNk3zNjsy6ICBfzKkgXMygzZXNnM2VzLwgICAgL8y5zLogXM2UzJ7MlsyZzY4gICAKICBczZXNic2UzZpfzZPMq1/Mns2IzJzMpV8gXM2fzY7MqsyezKsgfCAgfMyszZ/MpCB8zJ/NjcyeIHxfzLrNic2HzYkpIHzMoMygzKzNmiAgL82JIF8gXM2aICAKICAgX8ylzJnNnsyszZNfzLrMmF/NlCkgfMykzLrNjiB8X82VzYd8IHzNlM2WzZQgIF/NlsylzJkgPMymzZwgIC/Mnc2IzLvMmMycIF/Mu82OzKXMq1/MnsytzJhfzYjNniBczJbMmc2czJ8gCiAgfMydzKtfX82ZzLrMn1/MpMymzJdfzK3MpMyYzZ7Mly8gXMygzYlfzKxfzKrMq1/MqcyZzZPNny/MuXzMpsyYzKxfzJzNn3zNk82czJjNncyZIFzNls2JzKtfXM2UzKvNlcyWzJgvzKTMlsyWzKvMnF/MpM2fzZ/Nji/MvMyqICAgXM2aX82ZzLzMusygzYdczKAK");
+            var logoSora = atob("ICAgX19fX18gX19fXyAgX19fXyAgICAgIF8gICAgCiAgLyBfX18vLyBfXyBcfCAgXyBcICAgIC8gXCAgIAogIFxfX18gXCB8ICB8IHwgfF8pIHwgIC8gXyBcICAKICAgX19fKSB8IHxffCB8ICBfIDwgIC8gX19fIFwgICAqCiAgfF9fX18vIFxfX18vfF98IFxfXC9fLyAgIFxfXCAvfFwKICAgIHwgICAgICB8ICAgICAgfCAgICAgfCAgIHwgIFx8CiAgICA7ICAgICAgLiAgICAgIHwgICAgIC4gICA7IAogICAgJyAgICAgICAgICAgICAnICAgICAgICAgJyA=");
 
             var currentTheme = localStorage.getItem("ktnaos-theme");
             var currentLogo = logoKtna;
