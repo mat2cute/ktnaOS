@@ -5,9 +5,15 @@ Write-Host "      Installing ktnaOS Spicetify       " -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 
 # 1. Find Spicetify directory
-$spicetifyConfig = (spicetify -c)
+$spicetifyConfig = $null
+try {
+    $spicetifyConfig = (spicetify -c 2>$null)
+} catch {}
+
 if (-not $spicetifyConfig) {
-    Write-Host "Error: Spicetify is not installed or not in PATH." -ForegroundColor Red
+    Write-Host "Error: Spicetify is not installed or not in your system PATH." -ForegroundColor Red
+    Write-Host "Please install Spicetify first: https://spicetify.app/docs/getting-started" -ForegroundColor Yellow
+    Read-Host "Press Enter to exit..."
     exit 1
 }
 $spicetifyDir = Split-Path -Parent $spicetifyConfig
@@ -53,3 +59,5 @@ spicetify apply
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "   Installation Complete! Enjoy ktnaOS  " -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor Cyan
+
+Read-Host "Press Enter to close this window..."
