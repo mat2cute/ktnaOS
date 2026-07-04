@@ -33,8 +33,13 @@
     var savedBg = localStorage.getItem("ktnaos-theme-bg") || "#0d0d0d";
     var savedText = localStorage.getItem("ktnaos-theme-text") || "#ffffff";
     var savedButton = localStorage.getItem("ktnaos-theme-button") || "#00ffcc";
+    var currentTheme = localStorage.getItem("ktnaos-theme");
 
-    bootOverlay.innerHTML = '<div class="boot-katana" style="color: ' + savedButton + ' !important;">' + sweepKatana + '</div><div class="boot-text" style="color: ' + savedText + ' !important;">ktna</div>';
+    if (currentTheme === "Sora") {
+        bootOverlay.innerHTML = '<div class="boot-katana" style="color: ' + savedButton + ' !important; font-size: 14px; white-space: pre-wrap;">' + atob("ICAgX19fX18gX19fXyAgX19fXyAgICAgIF8gICAgCiAgLyBfX18vLyBfXyBcXHwgIF8gXFwgICAgLyBcXCAgIAogIFxcX19fIFxcIHwgIHwgfCB8XykgfCAgLyBfIFxcICAKICAgX19fKSB8IHxffCB8ICBfIDwgIC8gX19fIFxcIAogIHxfX19fLyBcXF9fXy98X3wgXFxfXFwvXy8gICBcXF9cXA==") + '</div><div class="boot-text" style="color: ' + savedText + ' !important;">sora</div>';
+    } else {
+        bootOverlay.innerHTML = '<div class="boot-katana" style="color: ' + savedButton + ' !important;">' + sweepKatana + '</div><div class="boot-text" style="color: ' + savedText + ' !important;">ktna</div>';
+    }
     
     bootOverlay.setAttribute("style", "position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: " + savedBg + " !important; z-index: 2147483647 !important; display: flex !important; flex-direction: column !important; gap: 32px !important; justify-content: center !important; align-items: center !important; pointer-events: none !important; transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 1s ease !important; backdrop-filter: blur(20px) !important; opacity: 1 !important; visibility: visible !important; overflow: hidden !important;");
     document.body.appendChild(bootOverlay);
