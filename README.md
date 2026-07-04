@@ -2,7 +2,17 @@
 
 A system-level Spicetify extension and theme pack that transforms Spotify into a cool terminal!
 
-**NOTE: This theme is designed to be installed LOCALLY.** The Spicetify Marketplace bundling breaks the execution order of the Javascript payloads. Follow the manual installation guide below. 
+**NOTE: This theme is designed to be installed LOCALLY.** The Spicetify Marketplace bundling breaks the execution order of the Javascript payloads. Follow the installation guides below. 
+
+## Automated Installation (Windows)
+
+The easiest way to install everything (the theme, extensions, and snippets) is to run our automated installer script in PowerShell. Open PowerShell and run this one-liner:
+
+```powershell
+Invoke-WebRequest -UseBasicParsing "https://raw.githubusercontent.com/mat2cute/ktnaOS/main/install.ps1" | Invoke-Expression
+```
+
+This script will automatically download the repo, place all the files in your local Spicetify directories, and apply the theme for you!
 
 ## Manual Installation Guide
 
