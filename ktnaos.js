@@ -1013,8 +1013,9 @@
                                             window.dispatchEvent(new Event("ktnaos-config-update"));
                                         }
                                     else if (action === "screensaver" && cmd[1] && cmd[1].toLowerCase() === "set" && cmd[2]) {
-                                        localStorage.setItem("ktnaos-screensaver-art", cmd[2].toLowerCase());
-                                        this.appendLog("ktnaOS: screensaver art set to " + cmd[2].toLowerCase(), "var(--spice-button-active)");
+                                        var artName = cmd.slice(2).join(" ").toLowerCase();
+                                        localStorage.setItem("ktnaos-screensaver-art", artName);
+                                        this.appendLog("ktnaOS: screensaver art set to " + artName, "var(--spice-button-active)");
                                     }
                                     }
                                     else if (action === "help") {
