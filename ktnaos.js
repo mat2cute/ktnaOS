@@ -1186,8 +1186,9 @@
         if (requestedArt === lastFetchedArt) return; // Don't fetch if unchanged
         
         try {
-            // Fetch from the raw github repo
-            const res = await fetch("https://raw.githubusercontent.com/mat2cute/ktnaOS/main/screensavers/" + requestedArt + ".txt");
+            // Fetch from the raw github repo, adding a timestamp to bust Github's aggressive 5-minute cache
+            var url = "https://raw.githubusercontent.com/mat2cute/ktnaOS/main/screensavers/" + encodeURIComponent(requestedArt) + ".txt?t=" + new Date().getTime();
+            const res = await fetch(url);
             if (res.ok) {
                 activeAscii = await res.text();
                 lastFetchedArt = requestedArt;
