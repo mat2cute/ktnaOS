@@ -1012,6 +1012,10 @@
                                             this.appendLog("ktnaOS: timeout set to " + secs + "s", "var(--spice-button-active)");
                                             window.dispatchEvent(new Event("ktnaos-config-update"));
                                         }
+                                    else if (action === "screensaver" && cmd[1] && cmd[1].toLowerCase() === "set" && cmd[2]) {
+                                        localStorage.setItem("ktnaos-screensaver-art", cmd[2].toLowerCase());
+                                        this.appendLog("ktnaOS: screensaver art set to " + cmd[2].toLowerCase(), "var(--spice-button-active)");
+                                    }
                                     }
                                     else if (action === "help") {
                                         this.appendLog("ktnaOS cmds: exe help, exe skip/prev, exe play/pause, exe vol [0-100], exe usermod [name], exe screensaver [on|off], exe timeout [seconds]", "var(--spice-button-active)");
@@ -1165,10 +1169,43 @@
     ];
     var katanaAscii = katanaLines.join("\n");
     
+    // Default art is what was already here (Sasuke/Katana)
+    var activeAscii = katanaAscii;
+    var lastFetchedArt = null;
+    
+    // Fetch function
+    const updateScreensaverArt = async () => {
+        let requestedArt = localStorage.getItem("ktnaos-screensaver-art") || "default";
+        if (requestedArt === "default") {
+            activeAscii = katanaAscii;
+            lastFetchedArt = "default";
+            return;
+        }
+        
+        if (requestedArt === lastFetchedArt) return; // Don't fetch if unchanged
+        
+        try {
+            // Fetch from the raw github repo
+            const res = await fetch("https://raw.githubusercontent.com/mat2cute/ktnaOS/main/screensavers/" + requestedArt + ".txt");
+            if (res.ok) {
+                activeAscii = await res.text();
+                lastFetchedArt = requestedArt;
+            } else {
+                activeAscii = "ERROR 404:\nScreensaver '" + requestedArt + "' not found on Github.\nFallback engaged.\n\n" + katanaAscii;
+                lastFetchedArt = requestedArt;
+            }
+        } catch (e) {
+            console.error("ktnaOS: Failed to fetch screensaver", e);
+        }
+    };
+
     var neoUptime = 0;
     setInterval(function() {
         neoUptime++;
         if (!document.body.classList.contains("is-idle")) return;
+
+        // Try to update art if changed
+        updateScreensaverArt();
 
         var m = Math.floor(neoUptime / 60);
         var s = neoUptime % 60;
@@ -1178,11 +1215,11 @@
         var isPlaying = Spicetify.Player.isPlaying();
         var vol = Math.floor(Spicetify.Player.getVolume() * 100);
         
-        var blockGrid = '<span style="color:var(--spice-main)">████</span> <span style="color:var(--spice-sidebar)">████</span> <span style="color:var(--spice-player)">████</span> <span style="color:var(--spice-button)">████</span> <span style="color:var(--spice-button-active)">████</span> <span style="color:var(--spice-text)">████</span> <span style="color:var(--spice-subtext)">████</span>';
+        var blockGrid = '<span style="color:var(--spice-main)">█</span> <span style="color:var(--spice-sidebar)">█</span> <span style="color:var(--spice-player)">█</span> <span style="color:var(--spice-button)">█</span> <span style="color:var(--spice-button-active)">█</span> <span style="color:var(--spice-text)">█</span> <span style="color:var(--spice-subtext)">█</span>';
 
         var specs = userName + "@ktnaOS\n-------------\n<b>OS:</b> ktnaOS\n<b>Kernel:</b> spicetify :)\n<b>Uptime:</b> " + m + "m " + s + "s\n<b>Packages:</b> .ktna\n<b>Shell:</b> meowmium\n<b>Resolution:</b> " + window.innerWidth + "x" + window.innerHeight + "\n<b>WM:</b> ktna-spotify\n<b>Theme:</b> " + themeName + "\n<b>CPU:</b> ktna core imeow @ 9.12 GHz\n<b>Audio:</b> " + vol + "%\n<b>Discord:</b> mat.sys\n\n" + blockGrid;
         
-        neoFetchContainer.innerHTML = '<div class="katana-logo">' + katanaAscii + '</div><div class="specs-list">' + specs + '</div>';
+        neoFetchContainer.innerHTML = '<div class="katana-logo" style="white-space: pre;">' + activeAscii + '</div><div class="specs-list">' + specs + '</div>';
     }, 1000);
 
     console.log("[ktnaOS] Extension loaded successfully");
