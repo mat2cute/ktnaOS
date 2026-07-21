@@ -71,7 +71,8 @@
     }
     const React = Spicetify.React;
     const ReactDOM = Spicetify.ReactDOM;
-    const themes = {\n        "YLIA_Kousei": {
+    const themes = {
+        "YLIA_Kousei": {
             main: "#0B1D3A", sidebar: "#0B1D3A", player: "#0B1D3A",
             text: "#E0F2FE", subtext: "#BFDBFE", button: "#3B82F6",
             "button-active": "#60A5FA", "button-disabled": "#0B1D3A",
