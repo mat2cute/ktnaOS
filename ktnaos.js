@@ -467,7 +467,17 @@
     function applyTheme(name, quiet) {
         document.body.setAttribute("data-ktna-theme", name);
         localStorage.setItem("ktnaos-theme", name);
-        const theme = themes[name];
+        let theme = themes[name];
+        
+        // Fallback to prevent a fatal UI crash if the theme is removed or renamed
+        if (!theme) {
+            console.warn("[ktnaOS] Theme '" + name + "' not found. Falling back to default.");
+            name = "ktnaOS";
+            theme = themes[name] || Object.values(themes)[0];
+            document.body.setAttribute("data-ktna-theme", name);
+            localStorage.setItem("ktnaos-theme", name);
+        }
+
         if (theme) {
             localStorage.setItem("ktnaos-theme-bg", theme.main);
             localStorage.setItem("ktnaos-theme-text", theme.text);
@@ -713,7 +723,7 @@
         }
     }
 
-    new Spicetify.Playbar.Button(
+    new Spicetify.Topbar.Button(
         "ktna themes!",
         "enhance",
         function() {
@@ -1110,7 +1120,7 @@
     }
 
     ReactDOM.render(React.createElement(KtnaOSDashboard, null), overlay);
-    new Spicetify.Playbar.Button(
+    new Spicetify.Topbar.Button(
         "ktnaOS Terminal",
         "computer",
         function() {
@@ -1154,7 +1164,7 @@
     resetIdle();
 
     Spicetify.SVGIcons["katana-btn"] = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2c0 2-1 3-3 3"/><path d="M8 16l-6 6"/><path d="M6 14l4 4"/></svg>';
-    new Spicetify.Playbar.Button(
+    new Spicetify.Topbar.Button(
         "ktna konsole",
         "katana-btn",
         function() {
