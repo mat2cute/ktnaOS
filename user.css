@@ -1440,3 +1440,25 @@ body:not(.is-playing) .x-progressBar-fillColor {
     margin-right: 8px;
     margin-left: 8px;
 }
+
+/* Light Theme Hotfixes for ktnaOS */
+.Root__globalNav, 
+.Root__top-container, 
+.main-globalNav-navComponent { 
+    background-color: var(--spice-main) !important; 
+}
+.encore-dark-theme .encore-inverted-light-set { 
+    --background-base: var(--spice-text) !important; 
+    --text-base: var(--spice-main) !important; 
+}
+.main-yourLibraryX-button { 
+    background-color: var(--spice-text) !important; 
+    color: var(--spice-main) !important; 
+}
+.main-globalNav-searchContainer form .main-topBar-searchBar { 
+    background-color: var(--spice-main) !important; 
+    color: var(--spice-text) !important; 
+}
+.os-scrollbar-handle {
+    max-width: 6px !important;
+}
