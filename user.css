@@ -1462,3 +1462,24 @@ body:not(.is-playing) .x-progressBar-fillColor {
 .os-scrollbar-handle {
     max-width: 6px !important;
 }
+
+/* Additional Light Theme Hotfixes */
+.main-topBar-button, 
+.main-topBar-historyButtons .main-topBar-button, 
+.main-globalNav-historyButtonsContainer button,
+.main-globalNav-historyButtonsContainer > div,
+.Root__globalNav .main-topBar-button { 
+    background-color: transparent !important; 
+}
+.spotify__container--is-desktop.spotify__os--is-windows #Desktop_Half_Region { 
+    background-color: var(--spice-main) !important; 
+}
+button[aria-label='Create playlist or folder'], 
+.main-yourLibraryX-header button { 
+    background-color: var(--spice-button) !important; 
+    color: var(--spice-main) !important; 
+}
+.encore-inverted-light-set {
+    --background-base: var(--spice-button) !important;
+    --text-base: var(--spice-main) !important;
+}
