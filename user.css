@@ -1239,7 +1239,7 @@ body.is-idle #ktna-neofetch {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: #000;
+    background: var(--spice-main, #000);
     z-index: 999999;
     display: flex;
     flex-direction: column;

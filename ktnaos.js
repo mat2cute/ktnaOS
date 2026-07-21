@@ -73,44 +73,44 @@
     const ReactDOM = Spicetify.ReactDOM;
     const themes = {
         "YLIA_Kousei": {
-            main: "#050B14", sidebar: "#050B14", player: "#050B14",
-            text: "#8892B0", subtext: "#606A86", button: "#FFD700",
-            "button-active": "#FCA5A5", "button-disabled": "#0A192F",
-            "tab-active": "#FCA5A5", notification: "#FCA5A5",
-            "notification-error": "#EF4444", misc: "#0A192F",
-            "border-active": "#FFD700", "border-inactive": "#0A192F",
-            header: "#0A192F", highlight: "#0A192F", banner: "#FFD700",
-            accent: "#FFD700", "accent-active": "#FCA5A5", "accent-inactive": "#0A192F"
+            main: "#0B1D3A", sidebar: "#0B1D3A", player: "#0B1D3A",
+            text: "#E0F2FE", subtext: "#BFDBFE", button: "#3B82F6",
+            "button-active": "#60A5FA", "button-disabled": "#0B1D3A",
+            "tab-active": "#60A5FA", notification: "#93C5FD",
+            "notification-error": "#EF4444", misc: "#1E3A8A",
+            "border-active": "#3B82F6", "border-inactive": "#1E3A8A",
+            header: "#1E3A8A", highlight: "#1E3A8A", banner: "#3B82F6",
+            accent: "#3B82F6", "accent-active": "#60A5FA", "accent-inactive": "#0B1D3A"
         },
         "YLIA_Kaori": {
-            main: "#FFF5F8", sidebar: "#FFF5F8", player: "#FFF5F8",
-            text: "#4A4A4A", subtext: "#7A7A7A", button: "#F794B0",
-            "button-active": "#FDE047", "button-disabled": "#FFE4E1",
-            "tab-active": "#FDE047", notification: "#87CEEB",
-            "notification-error": "#FF6B6B", misc: "#FFE4E1",
-            "border-active": "#F794B0", "border-inactive": "#FFE4E1",
-            header: "#FFE4E1", highlight: "#FFE4E1", banner: "#F794B0",
-            accent: "#F794B0", "accent-active": "#FDE047", "accent-inactive": "#FFE4E1"
+            main: "#2A1B28", sidebar: "#2A1B28", player: "#2A1B28",
+            text: "#FEE2E2", subtext: "#FECACA", button: "#FDE047",
+            "button-active": "#FEF08A", "button-disabled": "#2A1B28",
+            "tab-active": "#FEF08A", notification: "#FCA5A5",
+            "notification-error": "#EF4444", misc: "#4A3045",
+            "border-active": "#FDE047", "border-inactive": "#4A3045",
+            header: "#4A3045", highlight: "#4A3045", banner: "#FDE047",
+            accent: "#FDE047", "accent-active": "#FEF08A", "accent-inactive": "#2A1B28"
         },
         "YLIA_Tsubaki": {
-            main: "#2D1E16", sidebar: "#2D1E16", player: "#2D1E16",
-            text: "#FEEBC8", subtext: "#D6BC98", button: "#DD6B20",
-            "button-active": "#ED8936", "button-disabled": "#412B23",
-            "tab-active": "#ED8936", notification: "#38A169",
-            "notification-error": "#E53E3E", misc: "#412B23",
-            "border-active": "#DD6B20", "border-inactive": "#412B23",
-            header: "#412B23", highlight: "#412B23", banner: "#DD6B20",
-            accent: "#DD6B20", "accent-active": "#ED8936", "accent-inactive": "#412B23"
+            main: "#1C2E20", sidebar: "#1C2E20", player: "#1C2E20",
+            text: "#ECFCCB", subtext: "#D9F99D", button: "#84CC16",
+            "button-active": "#A3E635", "button-disabled": "#1C2E20",
+            "tab-active": "#A3E635", notification: "#D97706",
+            "notification-error": "#EF4444", misc: "#2F4F36",
+            "border-active": "#84CC16", "border-inactive": "#2F4F36",
+            header: "#2F4F36", highlight: "#2F4F36", banner: "#84CC16",
+            accent: "#84CC16", "accent-active": "#A3E635", "accent-inactive": "#1C2E20"
         },
         "YLIA_Watari": {
-            main: "#171923", sidebar: "#171923", player: "#171923",
-            text: "#E2E8F0", subtext: "#A0AEC0", button: "#E53E3E",
-            "button-active": "#3182CE", "button-disabled": "#2D3748",
-            "tab-active": "#3182CE", notification: "#ECC94B",
-            "notification-error": "#F56565", misc: "#2D3748",
-            "border-active": "#E53E3E", "border-inactive": "#2D3748",
-            header: "#2D3748", highlight: "#2D3748", banner: "#E53E3E",
-            accent: "#E53E3E", "accent-active": "#3182CE", "accent-inactive": "#2D3748"
+            main: "#2E1B1B", sidebar: "#2E1B1B", player: "#2E1B1B",
+            text: "#FEE2E2", subtext: "#FECACA", button: "#EF4444",
+            "button-active": "#F87171", "button-disabled": "#2E1B1B",
+            "tab-active": "#F87171", notification: "#3B82F6",
+            "notification-error": "#DC2626", misc: "#4F2F2F",
+            "border-active": "#EF4444", "border-inactive": "#4F2F2F",
+            header: "#4F2F2F", highlight: "#4F2F2F", banner: "#EF4444",
+            accent: "#EF4444", "accent-active": "#F87171", "accent-inactive": "#2E1B1B"
         },
 
         "YourLieInApril": {
