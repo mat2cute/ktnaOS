@@ -72,6 +72,16 @@
     const React = Spicetify.React;
     const ReactDOM = Spicetify.ReactDOM;
     const themes = {
+        "YourLieInApril": {
+            main: "#121016", sidebar: "#121016", player: "#121016",
+            text: "#fcfcfc", subtext: "#c5b3be", button: "#ffb7c5",
+            "button-active": "#ff9eaf", "button-disabled": "#1c1b22",
+            "tab-active": "#ff9eaf", notification: "#a3c2f0",
+            "notification-error": "#ff5a67", misc: "#2d2b36",
+            "border-active": "#ffb7c5", "border-inactive": "#2d2b36",
+            header: "#2d2b36", highlight: "#2d2b36", banner: "#ffb7c5",
+            accent: "#ffb7c5", "accent-active": "#ff9eaf", "accent-inactive": "#1c1b22"
+        },
         "Catppuccin": {
             main: "#1e1e2e", sidebar: "#1e1e2e", player: "#181825",
             text: "#cdd6f4", subtext: "#bac2de", button: "#cba6f7",
